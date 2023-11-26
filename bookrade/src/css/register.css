@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&family=Ubuntu&display=swap');
+
+.content{
+    display: flex;
+    margin-top: 75px;
+    justify-content: center;
+}
+.content .headings .title{
+    color: #228B22;
+    font-size: 40px;
+    margin-top: 150px;
+}
+
+.content .headings .message h1{
+    margin-top: 30px;
+    width: 400px;
+    color: grey;
+  }
+.card_register{
+    margin-left: 30px;
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px 50px 60px 50px;
+    width: 600px;
+    height: 650px;
+    box-shadow: 0px 106px 42px rgba(0, 0, 0, 0.01),
+    0px 59px 36px rgba(0, 0, 0, 0.05), 0px 26px 26px rgba(0, 0, 0, 0.09),
+    0px 7px 15px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+}
+
+.card_register .form_title{
+    font-family: 'Poppins', sans-serif;
+    color: #228B22;
+    font-size: 34px;
+    text-align: center;
+}
+.card_register .form{
+    margin-top: 30px;
+}
+
+.card_register .form input{
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    outline: 0;
+    width: 100%;
+    background-color: transparent;
+    float: left;
+    font-size: 16px;
+  }
+
+.card_register .form input:focus{
+
+    border: 2px solid #27ae60;
+    
+ }
+
+.card_register .form label{
+    font-size: 16px;
+    padding-bottom: 5px;
+
+}
+
+.card_register .form .names .fieldsf input, .card_register .form .names .fieldsl input{
+    text-transform: capitalize;
+}
+
+.card_register .form .names, .card_register .form .passwords{
+    display: flex;
+    width: 100%;
+}
+
+.card_register .form .names .fieldsf input, .card_register .form .passwords .password1 input{
+    width: 87%;
+    margin-right: 40px;
+}
+.card_register .form .names .fieldsl input, .card_register .form .passwords .password2 input{
+  width: 87%;
+  margin-left: 40px;
+}
+.fieldsl label, .password2 label{
+  margin-left: 40px;
+}
+.card_register .form .button{
+    height: 40px;
+    width: 100%;
+    background-color: #228B22;
+    color: white;
+    margin-top: 20px;
+}
+
+.card_register .form .checkbox .checkbox_label{
+    color: unset;
+    width: unset;
+    height: unset;
+    font-size: unset;
+}
+  
+.card_register .form .checkbox{
+    color: unset;
+    width: unset;
+    height: unset;
+    margin-top: 6px;
+    margin-right: 8px;
+}
+
+.card_register .form .checkbox{
+    color: unset;
+    width: unset;
+    height: unset;
+    margin-top: 6px;
+    margin-right: 8px;
+}
+
+.message{
+  margin-top: 30px;
+  width: 400px;
+  color: grey;
+}
+
+@media (max-width: 1200px) {
+    .content{
+        margin-top: 10px;
+        flex-direction: column;
+    }
+    .content .headings h1{
+        text-align: center;
+    }
+    .content .headings .message{
+        margin: auto;
+    }
+    .card_register{
+        margin-left: unset;
+        width: 500px;
+        margin: auto;
+    }
+    .content .headings .title{
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 500px) {
+    .card_register{
+        width: 390px;
+    }
+    .card_register .form .names, .card_register .form .passwords{
+        display: unset;
+    }
+    .card_register .form .names .fieldsf input, .card_register .form .passwords .password1 input{
+        width: 100%;
+        margin-right: unset;
+    }
+    .card_register .form .names .fieldsl input, .card_register .form .passwords .password2 input{
+        width: 100%;
+        margin-left: unset;
+    }
+    .fieldsl label, .password2 label{
+        margin-left: unset;
+    }
+    .content{
+        margin-top: 10px;
+    }
+    .content .headings .title{
+        font-size: 35px;
+        margin-top: unset;
+    }
+    .card_register{
+        height: 750px;
+    }
+}
+@media (max-width: 450px) {
+    .content .headings .title{
+        font-size: 25px;
+    }
+    .card_register{
+        height: 750px;
+    }
+}

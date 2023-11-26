@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap");
+
+:root {
+    --green: #27ae60;
+    --dark-color: #219150;
+    --black: #444;
+    --light-color: #666;
+    --border: 0.1rem solid rgba(0, 0, 0, 0.1);
+    --border-hover: 0.1rem solid var(--black);
+    --box-shadow: 0.5rem 1rem rgba(0, 0, 0, 0.1);
+  }
+
+section{
+    padding: 5rem 9%;
+}
+.home{
+    background: url(./../images/banner-bg.jpg) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.home .row{
+   display: flex;
+   align-items: center; 
+   flex-wrap: wrap;
+   gap: 1.5rem;
+}
+
+.home .row .content{
+    margin-top: -30px;
+    flex: 1 1 42rem;
+}
+.home .row .content .text{
+    display: flex;
+    flex-direction: column;
+}
+.home .row .content .text .explore{
+    background-color: var(--green);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 2rem;
+    width: 100px;
+}
+.home .row .content .text .explore:hover{
+    background-color: var(--dark-color);
+}
+
+
+.home .row .books-slider {
+    flex: 1 1 42rem;
+}
+
+.home .row .books-slider .mySwiper img{
+    height: 25rem;
+    gap: 40px;
+}
+.home .row .books-slider .mySwiper img:hover{
+    transform: scale(1.1);
+}
+.home .row .books-slider .stand{
+    width: 100%;
+    margin-top: -2rem;
+}
+
+.home .row .content h3{
+    color: var(--black);
+    font-size: 4rem;
+}
+
+.home .row .content p{
+    color: var(--light-color);
+    font-size: 2.5rem;
+    line-height: 2;
+    padding: 1rem 0;
+}
+
+@media (max-width: 991px) {
+    section{
+        padding: 3rem 2rem;
+    }
+    .home .row .content{
+        margin-top: 20px;
+    }
+  }
+
+@media (max-width: 768px) {
+    .home .row .content{
+        text-align: center;
+    }
+    .home .row .content h3{
+        font-size: 3.5rem;
+    }
+    .home .row .books-slider .mySwiper img{
+        margin: auto;
+    }
+  }
+
+@media  (max-width: 640px){
+    .home .row .books-slider .mySwiper img {
+        align-items: center;
+    }
+}
