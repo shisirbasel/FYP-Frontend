@@ -57,6 +57,7 @@ section{
 }
 .home .row .books-slider .mySwiper img:hover{
     transform: scale(1.1);
+    cursor: grab;
 }
 .home .row .books-slider .stand{
     width: 100%;

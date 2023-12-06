@@ -7,7 +7,7 @@ const BottomNav = () => {
         <a href="" className="fas fa-home"></a>
         <a href="" className="fas fa-list"></a>
         <a href="" className="fas fa-star"></a>
-        <a href="" class="fas fa-bell"></a>
+        <a href="" className="fas fa-bell"></a>
     </nav>
     </div>
   )

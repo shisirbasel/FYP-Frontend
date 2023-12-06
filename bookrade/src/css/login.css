@@ -10,6 +10,7 @@
     display: flex;
     margin-top: 70px;
     justify-content: center;
+    
 }
 
 .show .image img{
@@ -81,6 +82,7 @@
     background-color: #228B22;
     color: white;
     font-size: 16px;
+    border-radius: 5px;
 }
 .show .card_login .form .input a:hover{
     text-decoration: underline;
