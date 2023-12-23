@@ -165,11 +165,6 @@ a{
 /* media queries */
 
 @media (max-width: 1045px) {
-  .header-1 .icons div, .header-1 .icons a{
-    margin: 1.4rem;
-  }
-}
-@media (max-width: 996px) {
   html {
     font-size: 55%;
   }
@@ -181,13 +176,7 @@ a{
   }
 }
 
-@media (max-width: 810) {
-  .header-1 .icons div, .header-1 .icons a{
-    margin: 1.2px;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 790px) {
   html {
     scroll-padding-top: 0;
   }
