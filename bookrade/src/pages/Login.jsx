@@ -3,6 +3,11 @@ import './../css/login.css';
 import { useState } from 'react';
 import image from '../images/loginimage.png';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const Login = () => {
   const BASE_URL = "http://127.0.0.1:8000/api/";
@@ -15,26 +20,33 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-
-    fetch(`${BASE_URL}login/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        saveToken(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
+  
+    try {
+      const response = await axios.post(`${BASE_URL}login/`, formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
+  
+      console.log(response.data);
+      saveToken(response.data);
+  
+      if (response.status === 200) {
+        navigate('/');
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 401 || error.response.status === 400) {
+          toast.error("Invalid Email or Password");
+        } else {
+          toast.error("Error Occurred. Please Try Again Later.");
+        }
+      } else {
+        toast.error("Error Occurred. Please Try Again Later.");
+      }
+    }
   };
 
   const saveToken = (token) => {
@@ -93,6 +105,8 @@ const Login = () => {
           </div>
         </div>
       </div>
+
+      <ToastContainer/>
     </>
   );
 };
