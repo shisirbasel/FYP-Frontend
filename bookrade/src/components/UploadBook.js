@@ -67,7 +67,6 @@ const UploadBook = () => {
             onChange={handleImageChange}
           />
         </div>
-
         <div className='form'>
           <div className='form-content'>
           <label htmlFor="title">Title:</label><br />
@@ -83,24 +82,22 @@ const UploadBook = () => {
                   name="author"
                   id="author"
                   onChange={e => setFormData({ ...formData, author: e.target.value })}
-
                 />
-        {/* <label htmlFor="genre">Genre:</label><br />
-                <input
-                  type="text"
-                  name="genre"
-                  id="genre"
-                  // onChange={e => setFormData({ ...formData, email: e.target.value })}
-                /> */}
-
               <button className='button' onClick={handleFormSubmit} >Upload</button>
         </div>
-
           </div>
-        
       </form>
     </div>
   )
 }
 
 export default UploadBook;
+
+
+{/* <label htmlFor="genre">Genre:</label><br />
+                <input
+                  type="text"
+                  name="genre"
+                  id="genre"
+                  // onChange={e => setFormData({ ...formData, email: e.target.value })}
+                /> */}

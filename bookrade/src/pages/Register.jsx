@@ -53,7 +53,7 @@ const Register = () => {
       <div className='headings'>
         <h1 className='title'>Welcome to Bookrade! </h1>
         <div className="message">
-          <h1>Register your account to explore and trade books.</h1>
+          <h1>Register now for a unique book trading experience and join our vibrant literary community.</h1>
         </div>
       </div>
 

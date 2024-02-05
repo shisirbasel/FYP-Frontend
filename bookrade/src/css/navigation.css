@@ -164,7 +164,7 @@ a{
 
 /* media queries */
 
-@media (max-width: 1045px) {
+@media (max-width: 1048px) {
   html {
     font-size: 55%;
   }
@@ -176,7 +176,7 @@ a{
   }
 }
 
-@media (max-width: 790px) {
+@media (max-width: 793px) {
   html {
     scroll-padding-top: 0;
   }
