@@ -1,14 +1,14 @@
-import React, {useState} from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import {useNavigate} from 'react-router-dom';
 import OtpInput from 'react-otp-input';
+import { useState } from 'react';
 
 
-const VerifyOtp = ({email}) => {
+const VerifyOtp = () => {
 
     const [otp, setOTP] = useState("");
-    const formData = {"email": email, "otp":otp}
+    const formData = {"otp":otp}
     const BASE_URL = "http://127.0.0.1:8000/api/";
     const navigate = useNavigate();
 

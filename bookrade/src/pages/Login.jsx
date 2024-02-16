@@ -1,7 +1,6 @@
-import React from 'react';
 import './../css/login.css';
 import { useState } from 'react';
-import image from '../Assets/images/loginimage.png';
+import image from '../assets/images/loginimage.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';

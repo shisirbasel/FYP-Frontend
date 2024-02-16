@@ -14,7 +14,7 @@ section{
     padding: 5rem 9%;
 }
 .home{
-    background: url(./../Assets/images/banner-bg.jpg) no-repeat;
+    background: url(./../assets/images/banner-bg.jpg) no-repeat;
     background-size: cover;
     background-position: center;
 }
