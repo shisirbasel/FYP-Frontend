@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./../css/navigation.css"
+import { Link } from 'react-router-dom'
 
 const Header = () => {
 
@@ -9,7 +10,7 @@ const Header = () => {
   
   return (
     <div className="header-1">
-        <a href="home" className="logo"><i className="fas fa-book"></i>Bookrade</a>
+        <Link to="/" className="logo"><i className="fas fa-book"></i>Bookrade</Link>
 
 
         <form className={ ShowSearchBar ?  'search-form active' : 'search-form' }   >

@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import './../css/register.css';
 import {useNavigate} from 'react-router-dom';
+import {toast } from 'react-toastify';
+import VerifyOtp from '../components/VerifyOtp';
 
 const Register = () => {
   const BASE_URL = "http://127.0.0.1:8000/api/";
 
+ 
   const [formData, setFormData] = useState({
     email: '',
     first_name: '',
@@ -28,7 +31,8 @@ const Register = () => {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        navigate('/login')
+        toast.success(data.message)
+
       })
       .catch(error => {
         console.log(error);
@@ -49,7 +53,8 @@ const Register = () => {
   };
 
   return (
-    <div className='content'>
+    <>
+      <div className='content'>
       <div className='headings'>
         <h1 className='title'>Welcome to Bookrade! </h1>
         <div className="message">
@@ -123,10 +128,19 @@ const Register = () => {
             type="submit"
             value="Sign Up"
             className="button"
-            onClick={handleFormSubmit} /><br />
+            onClick={handleFormSubmit} 
+            /><br />
         </form>
       </div>
     </div>
+    
+    
+
+
+      <VerifyOtp email= {formData.email} />
+      
+
+    </>
   );
 }
 

@@ -19,7 +19,7 @@ const ShowBooks = () => {
       })
   }
 
-  useEffect(() => { fetchNoteData()})
+  useEffect(() => { fetchNoteData()},[])
     
   return (
     <div>
@@ -27,13 +27,15 @@ const ShowBooks = () => {
             <div>
                 {books.map(book => (
                     <div key={book.id} className='book'> 
-                    
-                        <img src={`http://127.0.0.1:8000${book.image}`} alt={book.title} className='book-image' />
+                        {book.image ? (
+                              <img src={`http://127.0.0.1:8000${book.image}`} alt={book.title} className='book-image' />
+                            ) : (
+                              <div>Hello</div>
+                            )}
 
                         {book.title}
                         {book.author}
                         {book.user}
-                    
                     
                     </div>
                 ))}

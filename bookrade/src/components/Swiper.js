@@ -6,18 +6,18 @@ import 'swiper/css/pagination';
 
 import './../css/swiper.css';
 
-import Book1 from './../images/book-1.png';
-import Book2 from './../images/book-2.png';
-import Book3 from './../images/book-3.png';
-import Book4 from './../images/book-4.png';
-import Book5 from './../images/book-5.png';
-import Book6 from './../images/book-6.png';
-import Book7 from './../images/book-7.png';
-import Book8 from './../images/book-8.png';
-import Book9 from './../images/book-9.png';
-import Book10 from './../images/book-10.png';
+import Book1 from './../Assets/images/book-1.png';
+import Book2 from './../Assets/images/book-2.png';
+import Book3 from './../Assets/images/book-3.png';
+import Book4 from './../Assets/images/book-4.png';
+import Book5 from './../Assets/images/book-5.png';
+import Book6 from './../Assets/images/book-6.png';
+import Book7 from './../Assets/images/book-7.png';
+import Book8 from './../Assets/images/book-8.png';
+import Book9 from './../Assets/images/book-9.png';
+import Book10 from './../Assets/images/book-10.png';
 
-import Stand from './../images/stand.png';
+import Stand from './../Assets/images/stand.png';
 
 const SwiperComponent = () => {
 

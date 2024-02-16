@@ -1,58 +1,44 @@
 import React from 'react';
 import './../css/uploadbook.css';
-import image from './../images/add-image.jpg';
+import image from './../Assets/images/add-image.jpg';
 import { useState } from 'react';
+import { sendPostRequest } from '../utils/api';
+import { toast } from 'react-toastify';
+
 
 const UploadBook = () => {
-  const BASE_URL = "http://127.0.0.1:8000/api/";
-
-  const token = JSON.parse(localStorage.getItem('token'));
-
-
   const [formData, setFormData] = useState({
     'title': '',
     'author': '',
     'image': null
   });
 
-  const handleImageChange = (event) => {
-    event.preventDefault();
+  const handleImageChange = (e) => {
+    e.preventDefault();
     const default_image = document.getElementById("image");
     console.log(default_image)
     if (default_image) {
-      const input_image = event.target;
+      const input_image = e.target;
       default_image.src = URL.createObjectURL(input_image.files[0]);
-      setFormData({ ...formData, image: event.target.files[0] });
+      setFormData({ ...formData, image: e.target.files[0] });
     } else {
       console.error("Element with ID 'image' not found");
     }
   }
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
     formDataToSend.append('title', formData.title);
     formDataToSend.append('image', formData.image);
     formDataToSend.append('author', formData.author);
-
-    fetch(`${BASE_URL}add_book/`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      body: formDataToSend,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    const responseData = await sendPostRequest('add_book', formDataToSend);
+    console.log(responseData)
   };
 
 
   return (
+    <>
     <div className='book-form'>
       <form method='post'>
         <div className='image'>
@@ -87,17 +73,11 @@ const UploadBook = () => {
         </div>
           </div>
       </form>
-    </div>
+      </div>
+    </>
+    
+    
   )
 }
 
 export default UploadBook;
-
-
-{/* <label htmlFor="genre">Genre:</label><br />
-                <input
-                  type="text"
-                  name="genre"
-                  id="genre"
-                  // onChange={e => setFormData({ ...formData, email: e.target.value })}
-                /> */}

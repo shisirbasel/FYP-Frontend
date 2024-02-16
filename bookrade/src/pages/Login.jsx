@@ -1,7 +1,7 @@
 import React from 'react';
 import './../css/login.css';
 import { useState } from 'react';
-import image from '../images/loginimage.png';
+import image from '../Assets/images/loginimage.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
@@ -106,7 +106,7 @@ const Login = () => {
         </div>
       </div>
 
-      <ToastContainer/>
+      <ToastContainer style={{fontSize: '12px'}}/>
     </>
   );
 };
