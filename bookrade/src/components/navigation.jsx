@@ -3,7 +3,7 @@ import Header from "./header";
 import Navbar from "./navbar";
 import BottomNav from "./BottomNav";
 
-const navigation = () => {
+const Navigation = () => {
   return (
     <div>
     {/* <div style={{ minHeight: "100vh" }}> */}
@@ -15,4 +15,4 @@ const navigation = () => {
   )
 }
 
-export default navigation
+export default Navigation

@@ -1,14 +1,18 @@
 import './../css/login.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import image from '../assets/images/loginimage.png';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import {  toast } from 'react-toastify';
+import {useDispatch, useSelector} from "react-redux"
+import { loginSuccess } from '../redux/authSlice';
 
 
 const Login = () => {
+
+  const isLoggedIn = useSelector((state)=>state.auth.isLogin)
+  
+  const dispatch = useDispatch();
   const BASE_URL = "http://127.0.0.1:8000/api/";
 
 
@@ -28,11 +32,11 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
       });
-  
-      console.log(response.data);
       saveToken(response.data);
   
       if (response.status === 200) {
+        toast.success("Logged Successfully!")
+        dispatch(loginSuccess())
         navigate('/');
       }
     } catch (error) {
@@ -49,10 +53,16 @@ const Login = () => {
   };
 
   const saveToken = (token) => {
-    console.log('Saving token:', token.access);
-    localStorage.setItem('token', JSON.stringify(token.access));
-    navigate('/');
+
+      localStorage.setItem('token', token.access.token);
+      localStorage.setItem('refresh', token.refresh.token);
+      localStorage.setItem('isAdmin', JSON.stringify(token.user.is_admin));
+      navigate('/');
+    
+  
   };
+
+  
 
   const togglePasswordVisibility = () => {
     var passwordInput = document.getElementById("password");
@@ -67,8 +77,13 @@ const Login = () => {
     }
   };
 
+  useEffect(()=>{if (isLoggedIn){
+    navigate('/'), []
+  }})
+
   return (
     <>
+
       <h1 className='heading'>Welcome Back. </h1>
 
       <div className='show'>
@@ -105,7 +120,6 @@ const Login = () => {
         </div>
       </div>
 
-      <ToastContainer style={{fontSize: '12px'}}/>
     </>
   );
 };

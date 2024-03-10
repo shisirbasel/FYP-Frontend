@@ -1,3 +1,6 @@
+
 export const getToken = () => {
-    return JSON.parse(localStorage.getItem('token'));
-  };
+  const tokenData = localStorage.getItem('token');
+  console.log(tokenData)
+  return tokenData? tokenData: null;
+};

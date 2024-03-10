@@ -1,0 +1,110 @@
+.profile-section{
+    display: flex;
+    margin: auto;
+}
+
+.profile-section .profile-picture{
+    margin: 60px 100px;
+    width: 30%;
+
+}
+
+.profile-section .profile-picture .profile-image{
+    margin: auto;
+    border-radius: 50%;
+    border: 2px solid black;
+    height: 200px;
+    width: 200px;
+}
+
+.profile-section .profile-picture .change-picture{
+    background-color: #219150;
+    border: 2px solid #219150;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin-left: -160px;
+    position:absolute;
+    margin-top: 230px;
+}
+
+.profile-section .profile-picture .change-picture:hover{
+    background-color: white;
+    color:#219150;
+    border: 2px solid #219150;
+    cursor: pointer;
+}
+.profile-section .profile-details{
+    width: 90%;
+    margin-left: 100px;
+
+}
+.profile-section .profile-details h1{
+    margin-top: 40px;
+}
+.profile-section .profile-details form{
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.profile-section .profile-details form input{
+    height: 45px;
+    padding: 5px;
+    padding-left: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    outline: 0;
+    width: 90%;
+    background-color: transparent;
+    font-size: 16px;
+    display: flex;
+}
+
+.profile-section .profile-details form .select{
+    font-size: 14px;
+}
+.profile-section .profile-details form .select:focus{
+    border: 2px solid #27ae60;
+}
+.profile-section .profile-details form input:focus {
+    border: 2px solid #27ae60;
+ }
+
+.profile-section .profile-details form label {
+    font-size: 16px;
+    padding-bottom: 5px;
+}
+
+.profile-section .profile-details .update-details{
+    background-color: #219150;
+    border: 2px solid #219150;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+.profile-section .profile-details .update-details:hover{
+    background-color: white;
+    color:#219150;
+    border: 2px solid #219150;
+    cursor: pointer;
+}
+.profile-section .profile-details .update-buttons{
+    display: flex;
+    gap: 30px;
+}
+
+.profile-section .profile-details .update-buttons .cancel-udpate{
+    background-color: rgb(186, 12, 12);
+    border: 2px solid rgb(156, 19, 19);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+.profile-section .profile-details .update-buttons .cancel-udpate:hover{
+    background-color: white;
+    color: rgb(156, 19, 19);
+    border: 2px solid rgb(156, 19, 19);
+    cursor: pointer;
+}

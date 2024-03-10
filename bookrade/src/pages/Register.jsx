@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './../css/register.css';
 import {useNavigate} from 'react-router-dom';
 import {toast } from 'react-toastify';
 import VerifyOtp from '../components/VerifyOtp';
+import { InputOTP } from 'antd-input-otp';
+import { Form } from 'antd';
 
 const Register = () => {
   const BASE_URL = "http://127.0.0.1:8000/api/";
@@ -134,12 +136,10 @@ const Register = () => {
       </div>
     </div>
     
+    <Form.Item label="OTP" name="otp">
+        <InputOTP autoFocustrue inputType='numeric'/>
+      </Form.Item>
     
-
-
-      <VerifyOtp email= {formData.email} />
-      
-
     </>
   );
 }

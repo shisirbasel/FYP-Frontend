@@ -1,0 +1,12 @@
+.admin-row-1 {
+    display: flex;
+}
+
+.show-book-card {
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: left;
+    
+}

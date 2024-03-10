@@ -46,21 +46,24 @@ const SwiperComponent = () => {
               modules={[Autoplay]}
               breakpoints={{
                 300: {
-                  slidesPerView: 2,
+                  slidesPerView: 1,
                 },
                 400: {
-                  slidesPerView: 2,
+                  slidesPerView: 1,
+                },
+                500: {
+                  slidesPerView: 1,
                 },
                 640: {
-                  slidesPerView: 3,
+                  slidesPerView: 2,
                 },
                 768: {
-                  slidesPerView: 3,
+                  slidesPerView: 2,
                 },
-                850:{
-                  slidesPerView: 3,
+                950:{
+                  slidesPerView: 2,
                 },
-                1024: {
+                1100: {
                   slidesPerView: 3,
                 },
               }}
