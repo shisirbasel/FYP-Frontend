@@ -1,7 +1,7 @@
 import './../css/login.css';
 import { useEffect, useState } from 'react';
 import image from '../assets/images/loginimage.png';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {  toast } from 'react-toastify';
 import {useDispatch, useSelector} from "react-redux"
@@ -115,6 +115,7 @@ const Login = () => {
                 </div>
                 <input type="submit" value="Login" className="button" onClick={handleFormSubmit} /><br />
               </form>
+              <Link className="text-green-700 float-right" to="/register">Register?</Link>
             </div>
           </div>
         </div>

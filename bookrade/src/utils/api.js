@@ -48,7 +48,7 @@ export const sendPostRequest = async (endpoint, formDataToSend) => {
 export const sendGetRequest= async(endpoint) => {
   try {
       const token = getToken();
-      const response = await axios.get(`${BASE_URL}/${endpoint}/`, {
+      const response = await axios.get(`${BASE_URL}/${endpoint}`, {
           headers: {
               Authorization: `Bearer ${token}`,
           },

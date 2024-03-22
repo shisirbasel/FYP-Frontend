@@ -1,15 +1,14 @@
-import  { useState } from 'react';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axios from 'axios'; 
 import './../css/register.css';
-import {useNavigate} from 'react-router-dom';
-import {toast } from 'react-toastify';
 import VerifyOtp from '../components/VerifyOtp';
-import { InputOTP } from 'antd-input-otp';
-import { Form } from 'antd';
+import { Modal } from 'antd';
 
 const Register = () => {
   const BASE_URL = "http://127.0.0.1:8000/api/";
-
- 
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: '',
     first_name: '',
@@ -17,28 +16,57 @@ const Register = () => {
     username: '',
     password: '',
   });
-
-  const navigate = useNavigate();
-
-  const handleFormSubmit = (e) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    toast.error("Your Account hasnot been verified yet! Please verify when Login.")
+    setIsModalOpen(false);
+  };
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
+    var password_1 = document.getElementById("password1");
+    var password_2 = document.getElementById("password2");
 
-    fetch(`${BASE_URL}register/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        toast.success(data.message)
-
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    if (password_1.value==="" || password_2.value===""){
+      toast.error("Password mustn't be Empty")
+      return null;
+    }
+    else if (password_1.value !== password_2.value) {
+      toast.error("Password Don't Match, Please Try Again")
+      return null;
+    }
+    else{
+      try{
+        const response = await axios.post(`${BASE_URL}register/`, formData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+          toast.success("Registration Successul, Please Verify your Account Now.")
+          setIsModalOpen(true)
+      }
+      catch(error){
+        if(error.response.status ===400){
+        let errorMessage = '';
+        for (const field in error.response.data) {
+          if (Array.isArray(error.response.data[field])) {
+            errorMessage = error.response.data[field][0];
+            break; 
+            }
+          }
+          toast.error(errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1));
+        }
+        else{
+          toast.error("A Problem Occured, Please Try Again")
+        }
+      }
+    }
+    
   };
 
   const togglePasswordVisibility = () => {
@@ -60,7 +88,7 @@ const Register = () => {
       <div className='headings'>
         <h1 className='title'>Welcome to Bookrade! </h1>
         <div className="message">
-          <h1>Register now for a unique book trading experience and join our vibrant literary community.</h1>
+          <h1 style={{fontSize:"24px"}}>Register now for a unique book trading experience and join our vibrant literary community.</h1>
         </div>
       </div>
 
@@ -133,12 +161,20 @@ const Register = () => {
             onClick={handleFormSubmit} 
             /><br />
         </form>
+        <Link className="text-2xl text-green-700 float-right hover:underline" to="/login">Already have an account? Login</Link>
+
       </div>
+
+      <Modal title="Account Verification" footer={false} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <div className='flex justify-center items-center'>
+
+          <VerifyOtp />
+
+        </div>
+      </Modal>
     </div>
     
-    <Form.Item label="OTP" name="otp">
-        <InputOTP autoFocustrue inputType='numeric'/>
-      </Form.Item>
+    
     
     </>
   );

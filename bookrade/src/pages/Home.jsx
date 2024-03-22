@@ -20,7 +20,7 @@ const Home = () => {
       </div>
         
           
-      <div className="home-body">
+      <div className="home-body" style={{height: '100vh'}}>
           <div className="left"><h1 className='text-black-500 text-3xl'>1. Upload The Book You want to Trade</h1></div>
           <div className="right"><h1 className='text-black-500 text-3xl'>2. Browse Your Favorite Books</h1></div>
           <div className="left"><h1 className='text-black-500 text-3xl'>3. Pick And Initiate a Trade</h1></div>

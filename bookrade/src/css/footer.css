@@ -36,7 +36,6 @@
 
 .footer-element .medias a {
     color: white; /* Change link color to white */
-    margin-right: 10px;
     font-size: 20px;
 }
 
@@ -58,7 +57,9 @@
     text-decoration: underline;
 }
 
-.medias {
+.medias{
+    justify-content: center;
     display: flex;
-    margin-left: 160px;
+    flex-wrap: wrap;
+    gap: 10px;
 }

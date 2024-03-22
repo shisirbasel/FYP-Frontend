@@ -59,12 +59,17 @@ const UpdateProfile = () => {
     if (userGenre.length > 0) {
       userGenre.forEach(genre => {
         formData.append('genre', genre.value);
+        console.log(formData);
       });
     } else {
-      formData.append('genre', []);
+      // Clear existing genre data before appending empty list
+      formData.delete('genre');
+      formData.append('genre', JSON.stringify([]));
+      console.log(formData);
     }
     
     const response = await sendPatchRequest('update_profile', formData);
+    console.log(formData)
     console.log(response);
     getUserDetails();
   };
@@ -110,9 +115,9 @@ const UpdateProfile = () => {
                     className="field"
                     id="email"
                     name="email"
+                    style={{ cursor: "not-allowed" }}
                     defaultValue={userData.email}
-                    onChange={(e)=>setUserData({ ...userData,  email: e.target.value })}
-                    
+                    readOnly
                     /> 
             <label htmlFor="genre">Genres :</label>
             <Select

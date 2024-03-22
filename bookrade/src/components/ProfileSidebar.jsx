@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { sendGetRequest } from '../utils/api';
+import {useDispatch} from 'react-redux'
+import { logout } from '../redux/authSlice';
+
 
 const ProfileSidebar = () => {
-
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState({})
 
   const getUserDetails = async () =>{
@@ -13,9 +16,14 @@ const ProfileSidebar = () => {
 
   useEffect(()=>{getUserDetails();},[])
 
+  const handleLogout = (e) => {
+      e.preventDefault();
+     dispatch(logout())
+  }
+
   return (
     
-    <div className="sticky profile-sidebar mx-10 my-10 bg-white rounded-md ring-2 ring-gray-900/5 w-3/12 shadow pt-10" style={{height:'75vh'}}>
+    <div className=" profile-sidebar mx-10 my-10 bg-white rounded-md ring-2 ring-gray-900/5 w-3/12 shadow pt-10" style={{height:'75vh'}}>
         
         <div className="profile-picture flex flex-row items-center">
             <div className="w-4/12 ml-20">
@@ -34,10 +42,10 @@ const ProfileSidebar = () => {
                 <Link to="/profile/books" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
                   <i className='fas fa-book m-3 mr-5 '/>Your Books</Link>
                 <Link to="#" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
-                  <i className='fas fa-envelope m-3 mr-5'/>Change Email</Link>
-                <Link to="#" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
                   <i className='fas fa-key m-3 mr-5'/>Change Password</Link>
-                <Link to="#" className="rounded-md block m-5 mt-30 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
+                  <Link to="#" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
+                  <i className='fas fa-handshake m-3 mr-5'/>Trade Requests</Link>
+                <Link to="#" onClick={handleLogout} className="rounded-md block m-5 mt-44 bg-gray-300 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-500  hover:text-white">
                   <i className='fas fa-sign-out m-3 mr-5'/>Logout</Link>
         </div>
 

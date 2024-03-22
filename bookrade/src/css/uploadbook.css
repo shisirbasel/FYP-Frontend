@@ -44,6 +44,9 @@
     float: left;
     font-size: 16px;
 }
+.book-form form .form .select {
+    font-size: 16px;
+}
 
 .book-form form .form input:focus{
     border: 2px solid #27ae60;

@@ -1,24 +1,42 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { sendDeleteRequest, sendGetRequest } from '../utils/api';
 import '../css/books.css';
 import { Link } from 'react-router-dom';
 import { getUser } from '../utils/user';
 import { Modal } from 'antd';
+import { SearchContext, GenreContext } from '../App';
+import TradeButton from './TradeButton';
+import BookCard from './BookCard';
 
-const ShowBooks = () => {
+const ShowBooks = ({select=false}) => {
+
+  const [searchParams] = useContext(SearchContext)
+  const [searchGenre] = useContext(GenreContext)
+  
   const isAdmin = getUser();
   const [books, setBooks] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 
   const getBookData = async () => {
-    const books = await sendGetRequest('show_books');
+    let searchQuery = 'books/search';
+    
+    if (searchParams !== '') {
+      searchQuery += `?search=${searchParams}`;
+    }
+
+    if (searchGenre.length > 0) {
+      const genreQueryString = searchGenre.map(genre => `genres=${genre}`).join('&');
+      searchQuery += searchParams === '' ? `?${genreQueryString}` : `&${genreQueryString}`;
+    }
+
+    const books = await sendGetRequest(searchQuery);
     setBooks(books);
-  };
+  }
 
   useEffect(() => {
     getBookData();
-  }, []); 
+  }, [searchParams, searchGenre]); 
 
   const handleDeleteBook = async (id) => {
     await sendDeleteRequest(`delete_book/${Number(id)}`);
@@ -44,78 +62,14 @@ const ShowBooks = () => {
   };
 
   return (
-    <div>
+    <div className="overflow-x-auto profile-section mx-10 my-10 bg-white rounded-md ring-2 ring-gray-900/5  shadow pt-10 px-32" style={{height:'75vh', width:select? '95%': '75%'}}>
+
       {books.length > 0 && (
         <div className='books'>
           {books.map((book, idx) => {
             return (
               <Link key={idx} className='book'>
-                {book.image ? (
-                  <div className="image">
-                    <img src={`http://127.0.0.1:8000${book.image}`} alt={book.title} className='book-image' />
-                  </div>
-                ) : (
-                  <div>Loading..</div>
-                )}
-                <div className="book_details">
-                  <div className="text">
-                    <h2>{book.title}</h2>
-                    <p>{book.author}</p>
-                    <p>{book.user.username}</p>
-                  </div>
-                  <div className="actions">
-                    {!isAdmin ? (
-                      <>
-                        <span className='fas fa-heart' />
-                        <span className='fas fa-message' />
-                      </>
-                    ) : (
-                      <>
-                        <span className='fas fa-trash' onClick={showDeleteModal} />
-                        <span className='fas fa-edit' onClick={showUpdateModal}/>
-                      </>
-                    )}
-                  </div>
-                </div>
-                <Modal title="Delete Book" open={isDeleteModalOpen} onOk={() => handleDeleteBook(book.id)} onCancel={handleCancel}>
-                  <h3>Are you sure you want to delete this book?</h3>
-                </Modal>
-
-                <Modal title="Edit Book" open={isUpdateModalOpen} onOk={() => handleUpdateBook(book.id)} onCancel={handleCancel}>
-                <form >
-                    <div className='image'>
-                    <h1 className='form-title'>Upload a Book</h1>
-                      <label htmlFor='image-input'>
-                        {/* <img src={image} id="image" alt='' /> */}
-                      </label>
-                      <input
-                        type='file'
-                        accept='image/jpeg,image/jpg,image/png'
-                        id='image-input'
-                        // onChange={handleImageChange}
-                      />
-                    </div>
-                    <div className='form'>
-                      <div className='form-content'>
-                      <label htmlFor="title">Title:</label><br />
-                            <input
-                              type="text"
-                              name="title"
-                              id="title"
-                              // onChange={e => setFormData({ ...formData, title: e.target.value })}
-                            />
-                    <label htmlFor="author">Author:</label><br />
-                            <input
-                              type="text"
-                              name="author"
-                              id="author"
-                              // onChange={e => setFormData({ ...formData, author: e.target.value })}
-                            />
-                          <button className='button' >Upload</button>
-                    </div>
-                      </div>
-                  </form>
-                </Modal>
+                <BookCard book={book} select={true}/>
               </Link>
             );
           })}
@@ -125,4 +79,4 @@ const ShowBooks = () => {
   );
 };
 
-export default ShowBooks;
+export default ShowBooks
