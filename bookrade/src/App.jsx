@@ -11,10 +11,12 @@ import { PrivateRoute } from './routes/ProtectedRoutes';
 import loader from './assets/loader/loader-img.gif';
 import VerifyOtp from './components/VerifyOtp';
 import Upload from './pages/Upload';
+import LikedBooks from './pages/LikedBooks';
 
 export const SearchContext = React.createContext();
 export const GenreContext = React.createContext();
-export const SelectBookContext = React.createContext();
+export const RequestBookContext = React.createContext();
+export const OfferBookContext = React.createContext();
 
 
 function App() {
@@ -24,9 +26,9 @@ function App() {
 
   const [searchGenre, setSearchGenre] = useState([]);
 
-  const [selectedBook, setSelectedBook] = useState({});
-
   const [requestedBook, setRequestedBook] = useState({});
+
+  const [offeredBook, setOfferedBook] = useState({});
 
 
   useEffect(() => {
@@ -38,7 +40,9 @@ function App() {
   return (
     <GenreContext.Provider value={[searchGenre, setSearchGenre]}>
     <SearchContext.Provider value={[searchParams,setSearchParams]}>
-    <SelectBookContext.Provider value ={[selectedBook, setSelectedBook]}>
+      <OfferBookContext.Provider value={[offeredBook, setOfferedBook]}>
+      <RequestBookContext.Provider value={[requestedBook, setRequestedBook]}>
+        
     {loading ? (
         <div className='flex h-40 items-center justify-center h-screen'>
           <img className="" src={loader} alt="Loading" />
@@ -63,10 +67,12 @@ function App() {
             <Route path="/profile/details" element={<PrivateRoute Component={Profile} />} />
             <Route path="/profile/books" element={<PrivateRoute Component={ProfileBooks} />} />
             <Route path="/upload" element={<PrivateRoute Component={Upload} />} />
+            <Route path="/liked" element={<PrivateRoute Component={LikedBooks} />} />
           </Routes>
         </Router>
       )}
-    </SelectBookContext.Provider>
+      </RequestBookContext.Provider>
+      </OfferBookContext.Provider>
     </SearchContext.Provider>
     </GenreContext.Provider>
     

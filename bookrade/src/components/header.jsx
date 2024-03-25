@@ -50,7 +50,7 @@ const Header = () => {
           {isLoggedIn? (
             <>
               <div id="search-btn" onClick={()=>setShowSearchBar(!ShowSearchBar)} className="fas fa-search"></div>
-              <Link to="" className="fas fa-heart" />
+              <Link to="/liked" className="fas fa-heart" />
               <Link to="" className="fas fa-message" />
               <Link to=""  id = "notification-btn" className="fas fa-bell" />
               <Link id="login-btn"  to='/profile/details'><img className="h-16 w-16 rounded-full" src={`http://127.0.0.1:8000${userData.profile_picture}`} alt="" /></Link>
