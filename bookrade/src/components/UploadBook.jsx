@@ -58,7 +58,9 @@ const UploadBook = () => {
     
     const responseData = await sendPostRequest('add_book', formDataToSend);
     console.log(responseData);
-    navigate('/explore')
+    if (responseData.status === 201){
+      navigate('/explore')
+    }
   };
 
   useEffect(()=>{
@@ -67,7 +69,7 @@ const UploadBook = () => {
 
   return (
     <>
-      <div className='book-form'>
+      <div className='book-form shadow-xl'>
         <form method='post'>
           <div className='image'>
             <h1 className='text-5xl text-green-700' >Upload a Book</h1>

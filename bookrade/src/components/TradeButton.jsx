@@ -54,7 +54,7 @@ const TradeButton = ({ book, select = false }) => {
     formData.append('offered_book', offeredBook.id)
     console.log(formData)
     await sendPostRequest('send/traderequest', formData)
-    toast.success("Trade Request Sent Successfully.")
+    toast.success("Trade Request Sent")
     setRequestedBook({})
     setOfferedBook({})
     getTradeStatus()

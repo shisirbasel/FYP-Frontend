@@ -16,11 +16,11 @@ export const sendPostRequest = async (endpoint, formDataToSend) => {
           },
       });
       
-      if (response.data.status === 201) {
+      if (response.status === 201) {
           toast.success(response.data.message);
       }  
       
-      return response.data;
+      return response;
   } catch (error) {
     if (error.response && error.response.status === 401) {
           try {
@@ -39,8 +39,12 @@ export const sendPostRequest = async (endpoint, formDataToSend) => {
               toast.error("Please Try Again Later");
           }
     }
-      toast.error("Please Try Again Later");
-      return error.response;
+    else if(error.response.status === 400){
+      toast.error("Invalid or Empty Input! Please Try Again.")
+    }
+      else{
+        toast.error("A Problem Occured, Please Try Again")
+    }
   }
 };
 
@@ -109,6 +113,47 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
     }
   };
 
+  export const sendPatchRequestWithoutData = async (endpoint) => {
+    try {
+      const token = getToken();
+      const response = await axios.patch(
+        `${BASE_URL}/${endpoint}/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        try {
+          await refreshToken();
+          const newToken = getToken();
+          const newResponse = await axios.patch(
+            `${BASE_URL}/${endpoint}/`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${newToken}`,
+                'Content-Type': 'multipart/form-data',
+              },
+            }
+          );
+  
+          toast.success(newResponse.data.message);
+          return newResponse.data;
+        } catch (error) {
+          toast.error("Please Try Again Later");
+        }
+      }
+      toast.error("Please Try Again Later");
+      return error.response;
+    }
+  };
+  
   export const sendDeleteRequest = async (endpoint) => {
     try {
       const token = getToken();

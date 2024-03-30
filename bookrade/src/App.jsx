@@ -7,11 +7,13 @@ import Explore from './pages/Explore';
 import Profile from './pages/Profile';
 import Admin from './pages/Admin';
 import ProfileBooks from './pages/ProfileBooks';
-import { PrivateRoute } from './routes/ProtectedRoutes'; 
+import { UserPrivateRoute, AdminPrivateRoute } from './routes/ProtectedRoutes'; 
 import loader from './assets/loader/loader-img.gif';
-import VerifyOtp from './components/VerifyOtp';
 import Upload from './pages/Upload';
 import LikedBooks from './pages/LikedBooks';
+import TradeRequests from './pages/TradeRequests';
+import AdminBooks from './pages/AdminBooks';
+import AdminUsers from './pages/AdminUsers';
 
 export const SearchContext = React.createContext();
 export const GenreContext = React.createContext();
@@ -52,22 +54,23 @@ function App() {
           <Routes>
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/verify" element={<VerifyOtp />} />
-
             <Route path="/" element={<Home />} />
-            <Route path="/admin" element={<Admin />} />
+           
 
             {/* Pass auth.token to ProtectedRoute */}
-            <Route
-              path="/explore"
-              element={<PrivateRoute Component={Explore} />}
-            />
-            {/* <Route path="/profile" element={<ProtectedRoute isAuthenticated={true}><Profile /></ProtectedRoute>} /> */}
+            <Route path="/explore" element={<UserPrivateRoute Component={Explore} />}/>
             <Route path="/profile" element={<Navigate to="/profile/details"/>} />
-            <Route path="/profile/details" element={<PrivateRoute Component={Profile} />} />
-            <Route path="/profile/books" element={<PrivateRoute Component={ProfileBooks} />} />
-            <Route path="/upload" element={<PrivateRoute Component={Upload} />} />
-            <Route path="/liked" element={<PrivateRoute Component={LikedBooks} />} />
+            <Route path="/profile/details" element={<UserPrivateRoute Component={Profile} />} />
+            <Route path="/profile/books" element={<UserPrivateRoute Component={ProfileBooks} />} />
+            <Route path="/upload" element={<UserPrivateRoute Component={Upload} />} />
+            <Route path="/liked" element={<UserPrivateRoute Component={LikedBooks} />} />
+            <Route path="/trade-requests" element={<UserPrivateRoute Component={TradeRequests} />} />
+
+            <Route path="/admin" element={<Navigate to="/admin/dashboard"/>} />
+            <Route path="/admin/dashboard" element={<AdminPrivateRoute Component={Admin} />} />
+            <Route path="/admin/books" element={<AdminPrivateRoute Component={AdminBooks} />} />
+            <Route path="/admin/users" element={<AdminPrivateRoute Component={AdminUsers} />} />
+
           </Routes>
         </Router>
       )}

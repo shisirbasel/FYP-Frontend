@@ -66,7 +66,6 @@ const Register = () => {
         }
       }
     }
-    
   };
 
   const togglePasswordVisibility = () => {
@@ -168,7 +167,7 @@ const Register = () => {
       <Modal title="Account Verification" footer={false} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div className='flex justify-center items-center'>
 
-          <VerifyOtp />
+          <VerifyOtp email={formData.email}/>
 
         </div>
       </Modal>

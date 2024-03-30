@@ -1,4 +1,5 @@
 import BookCard from './BookCard'
+import image from "../assets/images/nodata.png"
 import { useEffect, useState, useContext } from "react";
 import { sendGetRequest } from "../utils/api";
 import { Link } from 'react-router-dom';
@@ -23,12 +24,20 @@ const YourBooks = ({trade = false, select= false}) => {
         {books.map((book, idx) => {
           return (
             <Link key={idx} className='book'>
-              <BookCard book={book} ownbook={true} trade={trade}/>
+              <BookCard book={book} ownbook={true} trade={trade} getBookData={getBooks}/>
             </Link>
           );
         })}
       </div>
     )}
+
+  {books.length === 0 && (
+        <div className="flex flex-col items-center justify-center h-full text-gray-600" style={{marginTop: '-50px'}}>
+          <img src={image} alt='no data' className='w-3/5'></img>
+          <p className='text-5xl text-black' style={{marginTop: '-50px'}}>It seems you haven't posted any books yet.</p>
+        </div>
+      )}
+
   </div>
   )
 }

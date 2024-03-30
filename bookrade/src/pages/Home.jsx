@@ -4,10 +4,19 @@ import LandingNav from '../components/LandingNav'
 import '../css/landing.css'
 import Footer from '../components/Footer'
 import Navigation from '../components/navigation'
-
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { getUser } from '../utils/user'
 
 const Home = () => {
+  const navigate = useNavigate();
+  const is_admin = getUser();
 
+  useEffect(
+    () => {
+      is_admin? navigate('/admin/dashboard') : null
+    }, []
+  )
 
   
   return (

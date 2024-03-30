@@ -6,6 +6,9 @@ import axios from 'axios';
 import {  toast } from 'react-toastify';
 import {useDispatch, useSelector} from "react-redux"
 import { loginSuccess } from '../redux/authSlice';
+import VerifyOtp from '../components/VerifyOtp';
+import { Modal } from 'antd';
+import { getUser } from '../utils/user';
 
 
 const Login = () => {
@@ -14,6 +17,18 @@ const Login = () => {
   
   const dispatch = useDispatch();
   const BASE_URL = "http://127.0.0.1:8000/api/";
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
 
 
   const [formData, setFormData] = useState({
@@ -37,14 +52,18 @@ const Login = () => {
       if (response.status === 200) {
         toast.success("Logged Successfully!")
         dispatch(loginSuccess())
-        navigate('/');
+        const is_admin = getUser();
+  
+        is_admin? navigate('/admin/dashboard') : navigate('/')
       }
     } catch (error) {
       if (error.response) {
-        if (error.response.status === 401 || error.response.status === 400) {
+        if (error.response.status === 401) {
+      
           toast.error("Invalid Email or Password");
-        } else {
-          toast.error("Error Occurred. Please Try Again Later.");
+        } else if (error.response.status === 403) {
+          toast.error("Your Account is not Verified");
+          showModal()
         }
       } else {
         toast.error("Error Occurred. Please Try Again Later.");
@@ -53,13 +72,11 @@ const Login = () => {
   };
 
   const saveToken = (token) => {
-
       localStorage.setItem('token', token.access.token);
       localStorage.setItem('refresh', token.refresh.token);
       localStorage.setItem('isAdmin', JSON.stringify(token.user.is_admin));
       navigate('/');
-    
-  
+
   };
 
   
@@ -120,6 +137,15 @@ const Login = () => {
           </div>
         </div>
       </div>
+
+      <Modal title="Account Verification" footer={false} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <div className='flex justify-center items-center'>
+
+          <VerifyOtp login={false} email = {formData.email
+          } />
+
+        </div>
+      </Modal>
 
     </>
   );

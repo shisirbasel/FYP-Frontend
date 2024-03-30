@@ -3,8 +3,14 @@ import { sendGetRequest, sendPatchRequest } from "../utils/api";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import '../css/successbutton.css';
+import { getToken } from "../utils/token";
+import {  toast } from 'react-toastify';
+import axios from 'axios';
 
 const UpdateProfile = () => {
+
+  const BASE_URL = "http://127.0.0.1:8000/api/";
+
   const animatedComponents = makeAnimated();
   const [userData, setUserData] = useState({});
   const [genres, setGenres] = useState([]);
@@ -64,13 +70,35 @@ const UpdateProfile = () => {
     } else {
       // Clear existing genre data before appending empty list
       formData.delete('genre');
-      formData.append('genre', JSON.stringify([]));
+      formData.append('genre',[]);
       console.log(formData);
     }
+    const token = getToken();
+    try{
+      const response = await axios.patch(`${BASE_URL}update_profile/`, formData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      toast.success("Profile Updated Successfully.")
+    }
+    catch(error){
+      if(error.response && error.response.status === 400){
+        let errorMessage = '';
+        for (const field in error.response.data) {
+          if (Array.isArray(error.response.data[field])) {
+            errorMessage = error.response.data[field][0];
+            break; 
+          }
+        }
+        toast.error(errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1));
+      }
+      else{
+        toast.error("A Problem Occurred, Please Try Again");
+      }
+    }
     
-    const response = await sendPatchRequest('update_profile', formData);
-    console.log(formData)
-    console.log(response);
     getUserDetails();
   };
 

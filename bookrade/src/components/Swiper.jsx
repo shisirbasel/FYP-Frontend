@@ -17,6 +17,7 @@ import Book9 from './../assets/images/book-9.png';
 import Book10 from './../assets/images/book-10.png';
 
 import Stand from './../assets/images/stand.png';
+import { Link } from 'react-router-dom';
 
 const SwiperComponent = () => {
 
@@ -29,7 +30,7 @@ const SwiperComponent = () => {
             <div className='button'>
               
               <p>Trade Your Books, Save the Planet.</p>
-              <a href='/' className='explore'>Explore</a>
+              <Link to="/explore" className='explore'>Explore</Link>
             </div>
             
           </div>
