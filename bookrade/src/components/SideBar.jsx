@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../css/sidebar.css';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logos/logo-color.png';
-import { logout } from '../redux/authSlice';
+import { logout } from '../state/authSlice';
 import { useDispatch } from 'react-redux';
 
 
@@ -35,7 +35,7 @@ const Sidebar = () => {
           <Link className='navlink'>
             <span className='fas fa-handshake'/>Trade Meets
           </Link>
-      <Link className='navlink' onClick={handleLogout}>
+          <Link className='navlink' onClick={handleLogout}>
         <span className='fas fa-sign-out'/>Logout
       </Link>
     </div>

@@ -35,7 +35,6 @@ const TradeButton = ({ book, select = false }) => {
   const getTradeStatus = useCallback(async () => {
     try {
       const response = await sendGetRequest(`get/traderequest/${book.id}`);
-      console.log(response)
       if (response.trade_request) {
         setRequestStatus(true);
       } else {

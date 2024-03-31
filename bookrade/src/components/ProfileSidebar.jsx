@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { sendGetRequest, sendPatchRequest } from '../utils/api';
 import { useDispatch } from 'react-redux';
-import { logout } from '../redux/authSlice';
+import { logout } from '../state/authSlice';
 
 const ProfileSidebar = () => {
   const dispatch = useDispatch();

@@ -63,10 +63,8 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
   const [genres, setGenres] = useState([]);
 
   useEffect(() => {
-    console.log(book);
     getGenres();
     getLike();
-    console.log("Book Genre:", book.genre);
     setSelectedGenre(book.genre);
   }, []);
 

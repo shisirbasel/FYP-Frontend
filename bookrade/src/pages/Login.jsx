@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {  toast } from 'react-toastify';
 import {useDispatch, useSelector} from "react-redux"
-import { loginSuccess } from '../redux/authSlice';
+import { loginSuccess } from '../state/authSlice';
 import VerifyOtp from '../components/VerifyOtp';
 import { Modal } from 'antd';
 import { getUser } from '../utils/user';
