@@ -191,3 +191,10 @@
   white-space: nowrap;
   width: 180px;
 }
+
+.cancel-btn.no-hover:hover {
+  cursor: not-allowed;
+  color: white;
+  background-color: rgb(187, 35, 35);
+  border: 2px solid rgb(187, 35, 35);
+}

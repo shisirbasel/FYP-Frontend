@@ -5,7 +5,7 @@ import { persistReducer, persistStore } from 'redux-persist';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const persistConfig = {
-  timeout: 300,
+  timeout: 500,
   key: "root",
   version: 1,
   storage

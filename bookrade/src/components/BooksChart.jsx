@@ -40,7 +40,7 @@ const BooksChart = () => {
     };
 
     return (
-        <div className="w-5/12 shadow-md p-16 ring-2 ring-gray-900/5 bg-white">
+        <div className="w-5/12 shadow-md p-16 ring-2 ring-gray-900/5 bg-white hover:shadow-2xl">
             {Object.keys(bookDistribution).length > 0 ? renderChart() : <div>Loading...</div>}
         </div>
     );

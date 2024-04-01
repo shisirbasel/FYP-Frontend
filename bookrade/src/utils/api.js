@@ -5,8 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const BASE_URL = "http://127.0.0.1:8000/api";
 
-
 export const sendPostRequest = async (endpoint, formDataToSend) => {
+
   try {
       const token = getToken();
       const response = await axios.post(`${BASE_URL}/${endpoint}/`, formDataToSend, {
@@ -71,11 +71,14 @@ export const sendGetRequest= async(endpoint) => {
           
           return newResponse.data;
       } catch (error) {
-          toast.error("Failed to retry GET request after token refresh");
+          toast.error("Sesson Expired"); 
+          return error;
       }
   }
-      toast.error("Please Try Again Later");
-      return [];
+  else{
+      console.log(error)
+  }
+     
   }
 };
 

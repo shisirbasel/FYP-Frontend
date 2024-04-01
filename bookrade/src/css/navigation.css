@@ -68,6 +68,10 @@ html::-webkit-scrollbar-thumb {
   border-radius: 0.5rem;
 }
 
+.header-1 .search-form:focus{
+  border: var(--dark-color)
+}
+
 .header-1 .search-form input {
   font-size: 1.6rem;
   padding: 0 1.2rem;

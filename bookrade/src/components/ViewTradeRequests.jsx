@@ -40,9 +40,10 @@ const ViewTradeRequests = () => {
     }
 
     const CancelTradeRequest = async (id) => {
+        console.log(id)
         const response = await sendDeleteRequest(`delete/traderequest/${id}`)
         console.log(response)
-        fetchReceivedRequests();
+        fetchSentRequests();
     }
 
     useEffect(() => {
@@ -155,8 +156,14 @@ const ViewTradeRequests = () => {
                             </div>
 
                             <div className="m-10 mt-4 pt-12 w-4/12 h-64 flex flex-column book-preview gap-10">
-                                <div><p className="text-2xl font-bold text-black text-center" style={{marginLeft: '-20px'}}> {request.status}</p></div>
-                                <button className='cancel-btn' onClick={()=>CancelTradeRequest(request.id)}>Cancel Trade Request</button>
+                                <div>
+                                    <p className="text-2xl font-bold text-black text-center" style={{marginLeft: '-20px'}}>{request.status}</p>
+                                </div>
+                                {request.status === "Pending" ? (
+                                    <button className='cancel-btn' onClick={() => CancelTradeRequest(request.requested_book.id)}>Cancel Trade Request</button>
+                                ) : (
+                                    <button className='cancel-btn no-hover' disabled>Cancel Trade Request</button>
+                                )}
                             </div>
                         </div>
                     </li>

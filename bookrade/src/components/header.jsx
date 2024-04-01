@@ -95,7 +95,7 @@ const Header = () => {
           <>
             <div id="search-btn" onClick={() => setShowSearchBar(!ShowSearchBar)} className="fas fa-search"></div>
             <Link to="/liked" className="fas fa-heart" />
-            <Link to="" className="fas fa-message" />
+            <Link to="/chat" className="fas fa-message" />
             <div id="notification-btn" className="relative">
              
                 <Menu>

@@ -14,6 +14,9 @@ import LikedBooks from './pages/LikedBooks';
 import TradeRequests from './pages/TradeRequests';
 import AdminBooks from './pages/AdminBooks';
 import AdminUsers from './pages/AdminUsers';
+import ChatPreview from './pages/ChatPreview';
+import Chat from './pages/Chat';
+import PageNotFound from './pages/PageNotFound';
 
 export const SearchContext = React.createContext();
 export const GenreContext = React.createContext();
@@ -52,24 +55,27 @@ function App() {
       ) : (
         <Router>
           <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} exact/>
+            <Route path="/login" element={<Login />} exact/>
+            <Route path="/" element={<Home />} exact />
            
 
             {/* Pass auth.token to ProtectedRoute */}
-            <Route path="/explore" element={<UserPrivateRoute Component={Explore} />}/>
+            <Route path="/explore" element={<UserPrivateRoute Component={Explore} />} exact />
             <Route path="/profile" element={<Navigate to="/profile/details"/>} />
-            <Route path="/profile/details" element={<UserPrivateRoute Component={Profile} />} />
-            <Route path="/profile/books" element={<UserPrivateRoute Component={ProfileBooks} />} />
-            <Route path="/upload" element={<UserPrivateRoute Component={Upload} />} />
-            <Route path="/liked" element={<UserPrivateRoute Component={LikedBooks} />} />
-            <Route path="/trade-requests" element={<UserPrivateRoute Component={TradeRequests} />} />
+            <Route path="/profile/details" element={<UserPrivateRoute Component={Profile} />} exact  />
+            <Route path="/profile/books" element={<UserPrivateRoute Component={ProfileBooks} />} exact  />
+            <Route path="/upload" element={<UserPrivateRoute Component={Upload} />} exact  />
+            <Route path="/liked" element={<UserPrivateRoute Component={LikedBooks} />} exact  />
+            <Route path="/trade-requests" element={<UserPrivateRoute Component={TradeRequests} />} exact  />
+            <Route path="/chat" element={<UserPrivateRoute Component={ChatPreview} />}  exact />
+            <Route path="/chat/:id" element={<UserPrivateRoute Component={Chat} />} />
 
             <Route path="/admin" element={<Navigate to="/admin/dashboard"/>} />
-            <Route path="/admin/dashboard" element={<AdminPrivateRoute Component={Admin} />} />
-            <Route path="/admin/books" element={<AdminPrivateRoute Component={AdminBooks} />} />
-            <Route path="/admin/users" element={<AdminPrivateRoute Component={AdminUsers} />} />
+            <Route path="/admin/dashboard" element={<AdminPrivateRoute Component={Admin} />}  exact />
+            <Route path="/admin/books" element={<AdminPrivateRoute Component={AdminBooks} />}  exact />
+            <Route path="/admin/users" element={<AdminPrivateRoute Component={AdminUsers} />} exact  />
+            <Route path='*' element={<PageNotFound/>} />
 
           </Routes>
         </Router>
