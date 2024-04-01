@@ -16,22 +16,24 @@ const MessageBox = ({user}) => {
     };
     
     return (
-        <div className='flex' style={{ height: '8vh' }}>
-            <textarea 
-                className='border border-gray-300 rounded-lg h-12/12 p-2 px-5 mr-2 w-11/12 text-2xl' 
-                placeholder='Type your message...' 
-                value={message} 
-                onChange={(e) => setMessage(e.target.value)}
-                style={{ height: '8vh' }}
-            />
-            <button 
-                className='bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded' 
-                onClick={handleSendMessage} 
-                style={{ width: '100px' }}
-            >
-                Send
-            </button>
-        </div>
+        <div className='flex items-center justify-center ring-2 ring-gray-900/5 gap-5' style={{height: '7.1vh'}}>
+    <input 
+        className='ml-1 message-input border border-gray-300 rounded-lg h-12/12 p-2 px-5 w-10/12 text-2xl' 
+        placeholder='Type your message...' 
+        value={message} 
+        onChange={(e) => setMessage(e.target.value)}
+        style={{ height: '5vh' }}
+    />
+    <button
+        type="submit"
+        className='bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-4 text-2xl rounded mr-1' 
+        onClick={handleSendMessage} 
+        style={{ width: '90px' , height: '5vh'}}
+    >
+        Send <span className="fas fa-paper-plane"/>
+    </button>
+</div>
+
     );
 };
 

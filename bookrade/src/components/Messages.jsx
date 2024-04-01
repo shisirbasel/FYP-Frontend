@@ -2,11 +2,11 @@ import React, { useRef, useEffect } from 'react';
 import useGlobal from '../state/global';
 import { MyMessageBubble, FriendMessageBubble } from './MessageBubbles';
 
-const MessageBubble = ({ message }) => {
+const MessageBubble = ({ message, user}) => {
   return message.is_me ? (
     <MyMessageBubble message={message} />
   ) : (
-    <FriendMessageBubble message={message} />
+    <FriendMessageBubble message={message} user={user} />
   );
 };
 
@@ -43,7 +43,7 @@ const Messages = ({ user }) => {
       <ul>
         {messagesList.map((message, index) => (
           <li key={index}>
-            <MessageBubble message={message}/>
+            <MessageBubble message={message} user={user}/>
           </li>
         ))}
         <div ref={messagesEndRef} />

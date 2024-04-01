@@ -21,7 +21,7 @@ function responseMessageList(set, get, data) {
 }
 
 function responseMessageSend(set, get, data) {
-    if (data.message) {
+    if (data.message && data.message.id) { // Ensure message and message.id are present
         const newMessage = data.message;
         const isDuplicate = get().messagesList.some(existingMessage => existingMessage.id === newMessage.id);
         
@@ -33,9 +33,10 @@ function responseMessageSend(set, get, data) {
             console.log('Duplicate message detected, ignoring:', newMessage);
         }
     } else {
-        console.error('Invalid or missing message in the data:', data);
+        console.error('Invalid or missing message ID in the data:', data);
     }
 }
+
 
 const useGlobal = create((set, get) => ({ 
 
