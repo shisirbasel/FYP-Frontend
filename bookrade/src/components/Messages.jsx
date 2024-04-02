@@ -12,6 +12,7 @@ const MessageBubble = ({ message, user}) => {
 
 
 const Messages = ({ user }) => {
+  
   const socketConnect = useGlobal(state => state.socketConnect);
   const socketClose = useGlobal(state => state.socketClose);
   const messageList = useGlobal(state => state.messageList);
@@ -20,12 +21,12 @@ const Messages = ({ user }) => {
   const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    socketConnect();
+    socketConnect(user.id);
     
     return () => {
       socketClose();
     };
-  }, []);
+  }, [user.id]);
 
   useEffect(() => {
     if (user) {
@@ -39,7 +40,7 @@ const Messages = ({ user }) => {
   }, [messagesList]);
 
   return (
-    <div className='overflow-x-auto pb-10' style={{ height: '60vh' }}>
+    <div className='overflow-x-auto py-10' style={{ height: '60vh' }}>
       <ul>
         {messagesList.map((message, index) => (
           <li key={index}>

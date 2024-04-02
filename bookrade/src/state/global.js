@@ -3,9 +3,6 @@ import { getToken } from '../utils/token';
 
 const ADDRESS = "localhost:8000";
 
-//-------------------------------
-//     socket receive message
-//-------------------------------
 function responseMessageList(set, get, data) {
     if (data.messages && Array.isArray(data.messages)) {
         const newMessages = data.messages.filter(message => {
@@ -20,29 +17,32 @@ function responseMessageList(set, get, data) {
     }
 }
 
-function responseMessageSend(set, get, data) {
-    if (data.message && data.message.id) { // Ensure message and message.id are present
+function responseMessageSend(set, get, data, id) {
+    if (data.message && data.message.id) { 
         const newMessage = data.message;
-        const isDuplicate = get().messagesList.some(existingMessage => existingMessage.id === newMessage.id);
         
-        if (!isDuplicate) {
-            set((state) => ({
-                messagesList: [...state.messagesList, newMessage]
-            }));
-        } else {
-            console.log('Duplicate message detected, ignoring:', newMessage);
+        // Check if the message sender or receiver matches the provided ID
+        if (newMessage.sender === id || newMessage.receiver === id) {
+            const isDuplicate = get().messagesList.some(existingMessage => existingMessage.id === newMessage.id);
+            
+            if (!isDuplicate) {
+                set((state) => ({
+                    messagesList: [...state.messagesList, newMessage]
+                }));
+            } else {
+                console.log('Duplicate message detected, ignoring:', newMessage);
+            }
         }
     } else {
         console.error('Invalid or missing message ID in the data:', data);
     }
 }
 
-
 const useGlobal = create((set, get) => ({ 
 
     socket: null,
 
-    socketConnect: async () => {
+    socketConnect: async (id) => { // Accept 'id' parameter
         const token = getToken();
 
         const socket = new WebSocket(
@@ -67,7 +67,7 @@ const useGlobal = create((set, get) => ({
                 console.log("parsed source : ", parsed.source + "not found")
                 return
             }
-            resp(set, get,parsed.data)
+            resp(set, get, parsed.data, id);   // Pass 'id'
         }
 
 

@@ -9,18 +9,18 @@ import useGlobal from '../state/global'
 import Messages from '../components/Messages';
 
 const Chat = () => {
-  const socketConnect = useGlobal(state => state.socketConnect);
-  const socketClose = useGlobal(state => state.socketClose);
+  // const socketConnect = useGlobal(state => state.socketConnect);
+  // const socketClose = useGlobal(state => state.socketClose);
 
-  useEffect(() => {
-    socketConnect();
-    return () => {
-      socketClose();
-    };
-  }, []);
+  // useEffect(() => {
+  //   socketConnect();
+  //   return () => {
+  //     socketClose();
+  //   };
+  // }, []);
 
 
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   let { id } = useParams();
 
   const getUser = useCallback(async () => {
