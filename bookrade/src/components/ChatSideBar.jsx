@@ -57,7 +57,7 @@ const ChatSideBar = () => {
             <div className="overflow-auto" style={{ height: "63.5vh" }}>
             {users.map((user, index) => (
                 <Link key={index} 
-                className="rounded-md block flex gap-10 m-5 bg-gray-100 pl-10 px-15 py-3 text-2xl text-black-900 w-11/12 hover:bg-gray-300"
+                className="rounded-md flex gap-10 m-5 bg-gray-100 pl-10 px-15 py-3 text-2xl text-black-900 w-11/12 hover:bg-gray-300"
                 to={`/chat/${user.id}`}>
                     <div>
                         <img 
@@ -66,7 +66,7 @@ const ChatSideBar = () => {
                          />
 
                     </div>
-                    <div className="mt-3 user-details">
+                    <div className="mt-3 user-details hidden xl:w-auto xl:block">
                             <p className="text-black font-semibold text-xl">@{user.username}</p>
                             <p className="text-gray-500 font-semibold text-lg">{user.first_name} {user.last_name}</p>
                     </div>

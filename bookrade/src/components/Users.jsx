@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { sendGetRequest, sendDeleteRequest } from "../utils/api";
+import { sendGetRequest, sendDeleteRequest , sendPatchRequest } from "../utils/api";
 import { Modal } from 'antd';
+import {  toast } from 'react-toastify';
+import UpdateUser from "./UpdateUser";
 
 const Users = () => {
-    const [userModals, setUserModals] = useState([]);
+    const [showUpdateModal, setShowUpdateModal] = useState(false);
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
-    const [showDeleteModal, setShowDeleteModal] = useState(false); // New state variable
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const getAllUsers = async () => {
         try {
             const response = await sendGetRequest('users');
             setUsers(response);
-            // Initialize userModals state with false for each user
-            setUserModals(Array(response.length).fill(false));
         } catch (error) {
             console.error(error);
         }
@@ -23,24 +23,29 @@ const Users = () => {
         getAllUsers();
     }, []);
 
-    const showModal = (index) => {
-        const updatedModals = [...userModals];
-        updatedModals[index] = true;
-        setUserModals(updatedModals);
+    const showUpdateModalForUser = (user) => {
+        setSelectedUser(user);
+        setShowUpdateModal(true);
     };
 
-    const handleOk = (index) => {
-        const updatedModals = [...userModals];
-        updatedModals[index] = false;
-        setUserModals(updatedModals);
+    const handleUpdate = async (event) => {
+        event.preventDefault();
+        try {
+            const updatedUser = {
+                id : selectedUser.id,
+                first_name: event.target.first_name.value,
+                last_name: event.target.last_name.value,
+                username: event.target.username.value,
+            };
+            await sendPatchRequest(`update_profile`, updatedUser);
+            getAllUsers();
+            setShowUpdateModal(false);
+        } catch (error) {
+            toast.error("heloo")
+            console.error(error);   
+        }
     };
-
-    const handleCancel = (index) => {
-        const updatedModals = [...userModals];
-        updatedModals[index] = false;
-        setUserModals(updatedModals);
-    };
-
+   
     const showDeleteModalForUser = (user) => {
         setSelectedUser(user);
         setShowDeleteModal(true);
@@ -48,8 +53,7 @@ const Users = () => {
 
     const handleDelete = async () => {
         try {
-            const username = selectedUser.username
-            await sendDeleteRequest(`delete_user/${username}`);
+            await sendDeleteRequest(`delete_user/${selectedUser.username}`);
             getAllUsers();
             setShowDeleteModal(false);
             setSelectedUser(null);
@@ -73,64 +77,21 @@ const Users = () => {
 
                         <p className="w-4/12 text-xl font-semibold text-center">{user.email}</p>
 
-                        <span className="fas fa-edit text-3xl" onClick={() => showModal(index)}></span>
+                        <span className="fas fa-edit text-3xl" onClick={() => showUpdateModalForUser(user)}></span>
                         <span className="fas fa-trash text-3xl" onClick={() => showDeleteModalForUser(user)}></span>
-
-                        <Modal title="Edit User Details" open={userModals[index]} onOk={() => handleOk(index)} onCancel={() => handleCancel(index)} okButtonProps={{ style: { backgroundColor: 'green' } }}>
-                            <div className="profile-section">
-                                <div className="profile-details" style={{ marginLeft: "50px" }}>
-                                    <form>
-                                        <label htmlFor="fname">First Name :</label>
-                                        <input
-                                            type="text"
-                                            className="field"
-                                            id="fname"
-                                            name="first_name"
-                                            defaultValue={user.first_name}
-                                        />
-
-                                        <label htmlFor="lname">Last Name :</label>
-                                        <input
-                                            type="text"
-                                            className="field"
-                                            id="lname"
-                                            name="last_name"
-                                            defaultValue={user.last_name}
-                                        />
-
-                                        <label htmlFor="username">Username :</label>
-                                        <input
-                                            type="text"
-                                            className="field"
-                                            id="username"
-                                            name="username"
-                                            defaultValue={user.username}
-                                        />
-
-                                        <label htmlFor="email">Email :</label>
-                                        <input
-                                            type="text"
-                                            className="field"
-                                            id="email"
-                                            name="email"
-                                            style={{ cursor: "not-allowed" }}
-                                            defaultValue={user.email}
-                                            readOnly
-                                        />
-                                    </form>
-                                </div>
-                            </div>
+                        <Modal title="Edit User Details" open={showUpdateModal} onOk={handleUpdate} onCancel={() => setShowUpdateModal(false)} okButtonProps={{ style: { backgroundColor: 'green' } }}>
+                                        
+                        <UpdateUser selectedUser={user}/>
                         </Modal>
-
-                        <Modal title="Delete User" open={showDeleteModal} onOk={handleDelete} onCancel={() => setShowDeleteModal(false)} okButtonProps={{ style: { backgroundColor: 'red' } }}>
-                <p>Are you sure you want to delete this user?</p>
-            </Modal>
-
                     </div>
                 ))}
             </div>
 
             
+
+            <Modal title="Delete User" open={showDeleteModal} onOk={handleDelete} onCancel={() => setShowDeleteModal(false)} okButtonProps={{ style: { backgroundColor: 'red' } }}>
+                <p>Are you sure you want to delete this user?</p>
+            </Modal>
         </>
     );
 }

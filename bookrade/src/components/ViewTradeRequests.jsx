@@ -1,12 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { sendGetRequest, sendPatchRequestWithoutData, sendDeleteRequest } from "../utils/api";
-import { Tabs} from 'antd';
+import { sendGetRequest } from "../utils/api";
+import { Tabs } from 'antd';
+import ReceivedTradeRequestCard from "./ReceivedTradeRequestCard";
+import SentTradeRequestCard from "./SentTradeRequestCard";
+import Image from "../assets/images/nodata.png";
 
 const { TabPane } = Tabs;
 
 const ViewTradeRequests = () => {
+
     const [receivedRequests, setReceivedRequests] = useState([]);
     const [sentRequests, setSentRequests] = useState([]);
+    const [acceptedRequests, setAcceptedRequests] = useState([]);
+    const [rejectedRequests, setRejectedRequests] = useState([]);
 
     const fetchReceivedRequests = useCallback(async () => {
         try {
@@ -26,152 +32,131 @@ const ViewTradeRequests = () => {
         }
     }, []);
 
-    const AcceptTradeRequest = async (id) => {
-        const response = await sendPatchRequestWithoutData(`accept/traderequest/${id}`)
-        console.log(response)
-        fetchReceivedRequests();
-    }
+    const fetchRejectedRequests = useCallback(async () => {
+        try {
+            const response = await sendGetRequest('get/rejected_traderequests');
+            setRejectedRequests(response);
+        } catch (error) {
+            console.error('Error fetching sent trade requests:', error);
+        }
+    }, []);
 
-    
-    const RejectTradeRequest = async (id) => {
-        const response = await sendPatchRequestWithoutData(`reject/traderequest/${id}`)
-        console.log(response)
-        fetchReceivedRequests();
-    }
+    const fetchAcceptedRequests = useCallback(async () => {
+        try {
+            const response = await sendGetRequest('get/accepted_traderequests');
+            setAcceptedRequests(response);
+        } catch (error) {
+            console.error('Error fetching sent trade requests:', error);
+        }
+    }, []);
 
-    const CancelTradeRequest = async (id) => {
-        console.log(id)
-        const response = await sendDeleteRequest(`delete/traderequest/${id}`)
-        console.log(response)
+    const fetchAllRequests = useCallback(() => {
+        fetchAcceptedRequests();
+        fetchReceivedRequests();
+        fetchRejectedRequests();
         fetchSentRequests();
-    }
+    }, [fetchAcceptedRequests, fetchReceivedRequests, fetchRejectedRequests, fetchSentRequests]);
+
+    const items = [
+        {
+            key: '1',
+            label: 'Received Requests',
+            children: (
+                <ul>
+                    {receivedRequests.length > 0 ? (
+                        receivedRequests.map((request, index) => (
+                            <ReceivedTradeRequestCard key={index} request={request} fetchAllRequests={fetchAllRequests} />
+                        ))
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-full text-gray-600" >
+                            <img src={Image} alt='no data' className='w-2/5' style={{ marginTop: '-15px' }}></img>
+                            <p className='text-5xl text-black' style={{ marginTop: '-50px' }}>No Trade Requests to Respond to.</p>
+                        </div>
+                    )}
+                </ul>
+            ),
+        },
+        {
+            key: '2',
+            label: 'Sent Requests',
+            children: (
+                <ul>
+                    {sentRequests.length > 0 ? (
+                        sentRequests.map((request, index) => (
+                            <SentTradeRequestCard key={index} request={request} fetchAllRequests={fetchAllRequests} />
+                        ))
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-full text-gray-600" >
+                            <img src={Image} alt='no data' className='w-2/5' style={{ marginTop: '-15px' }}></img>
+                            <p className='text-5xl text-black' style={{ marginTop: '-50px' }}>No Sent Trade Requests.</p>
+                        </div>
+                    )}
+                </ul>
+            ),
+        },
+        {
+            key: '3',
+            label: 'Accepted Requests',
+            children: (
+                <ul>
+                    {acceptedRequests.length > 0 ? (
+                        acceptedRequests.map((request, index) => (
+                            <SentTradeRequestCard key={index} request={request} fetchAllRequests={fetchAllRequests} whoseBook={false} />
+                        ))
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-full text-gray-600" >
+                            <img src={Image} alt='no data' className='w-2/5' style={{ marginTop: '-15px' }}></img>
+                            <p className='text-5xl text-black' style={{ marginTop: '-50px' }}>No Accepted Trade Requests.</p>
+                        </div>
+                    )}
+                </ul>
+            ),
+        },
+        {
+            key: '4',
+            label: 'Rejected Requests',
+            children: (
+                <ul>
+                    {rejectedRequests.length > 0 ? (
+                        rejectedRequests.map((request, index) => (
+                            <SentTradeRequestCard key={index} request={request} fetchAllRequests={fetchAllRequests} whoseBook={false} />
+                        ))
+                    ) : (
+                        <div className="flex flex-col items-center justify-center h-full text-gray-600" >
+                            <img src={Image} alt='no data' className='w-2/5' style={{ marginTop: '-15px' }}></img>
+                            <p className='text-5xl text-black' style={{ marginTop: '-50px' }}>No Rejected Trade Requests.</p>
+                        </div>
+                    )}
+                </ul>
+            ),
+        },
+    ];
+
+    const onChange = (key) => {
+        console.log(key);
+    };
 
     useEffect(() => {
         fetchReceivedRequests();
         const receivedInterval = setInterval(fetchReceivedRequests, 4000);
-        fetchSentRequests();
+        fetchAllRequests();
         return () => {
             clearInterval(receivedInterval);
         };
-        
-    }, []);
+
+    }, [fetchAllRequests, fetchReceivedRequests]);
 
     return (
-        <div className="m-auto mt-8 bg-white rounded-md ring-2 ring-gray-900/5 w-11/12 p-8 overflow-x-auto" style={{height:'78vh'}}>
-        <Tabs defaultActiveKey="1" type="card">
-            <TabPane tab="Received Requests" key="1">
-                {/* Content for received requests */}
-                <ul>
-                    {receivedRequests.map((request, index) => (
-                        <li key={index}>
-                            <div className="m-auto flex mt-8 bg-white rounded-md ring-2 shadow-md ring-gray-900/5 w-10/12 p-8">
-                                <div className="shadow-md m-10 mt-4 w-6/12 h-64 flex book-preview">
-                                    <div className="w-3/12">
-                                        <img 
-                                            src={`http://127.0.0.1:8000${request.requested_book.image}`} 
-                                            className="book-image" 
-                                            alt={request.requested_book.title} 
-                                        />
-                                    </div>
-
-                                    <div className="ml-12">
-                                        <p className="text-3xl font-bold text-gray-900 mb-4 book_title">{request.requested_book.title}</p>
-                                        <p className="text-2xl text-gray-700 mb-4">{request.requested_book.author}</p>
-                                        <p className="text-xl text-gray-700 font-semibold">@{request.requested_book.user.username}</p>
-
-                                        <p className="text-xl text-red-700 font-bold mt-8">Your Book</p>
-                                    </div>
-                                </div>
-
-                                <div className="shadow-md m-10 mt-4 w-6/12 h-64 flex book-preview">
-                                    <div className="w-3/12">
-                                        <img 
-                                            src={`http://127.0.0.1:8000${request.offered_book.image}`} 
-                                            className="book-image" 
-                                            alt={request.offered_book.title} 
-                                        />
-                                    </div>
-
-                                    <div className="ml-12">
-                                        <p className="text-3xl font-bold text-gray-900 mb-4 book_title">{request.offered_book.title}</p>
-                                        <p className="text-2xl text-gray-700 mb-4">{request.offered_book.author}</p>
-                                        <p className="text-xl text-gray-700 font-semibold">@{request.offered_book.user.username}</p>
-
-                                        <p className="text-xl text-red-700 font-bold mt-8">Offered Book</p>
-
-                                    </div>
-                                </div>
-
-                                <div className="m-10 mt-4 pt-12 w-4/12 h-64 flex flex-column book-preview gap-10">
-                                    <button className='cancel-btn' onClick={()=>RejectTradeRequest(request.id)}>Reject Trade Request</button>
-                                    <button className='trade-btn' onClick={()=>AcceptTradeRequest(request.id)}>Accept Trade Request</button>
-                                </div>
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            </TabPane>
-            <TabPane tab="Sent Requests" key="2">
-                {/* Content for sent requests */}
-                <ul>
-                    {sentRequests.map((request, index) => (
-                        <li key={index}>
-                        <div className="m-auto flex mt-8 bg-white rounded-md ring-2 shadow-md ring-gray-900/5 w-10/12 p-8">
-
-                        <div className="shadow-md m-10 mt-4 w-6/12 h-64 flex book-preview">
-                                <div className="w-3/12">
-                                    <img 
-                                        src={`http://127.0.0.1:8000${request.offered_book.image}`} 
-                                        className="book-image" 
-                                        alt={request.offered_book.title} 
-                                    />
-                                </div>
-
-                                <div className="ml-12">
-                                    <p className="text-3xl font-bold text-gray-900 mb-4 book_title">{request.offered_book.title}</p>
-                                    <p className="text-2xl text-gray-700 mb-4">{request.offered_book.author}</p>
-                                    <p className="text-xl text-gray-700 font-semibold">@{request.offered_book.user.username}</p>
-
-                                    <p className="text-xl text-red-700 font-bold mt-8">Your Book</p>
-
-                                </div>
-                            </div>
-
-                            <div className="shadow-md m-10 mt-4 w-6/12 h-64 flex book-preview">
-                                <div className="w-3/12">
-                                    <img 
-                                        src={`http://127.0.0.1:8000${request.requested_book.image}`} 
-                                        className="book-image" 
-                                        alt={request.requested_book.title} 
-                                    />
-                                </div>
-
-                                <div className="ml-12">
-                                    <p className="text-3xl font-bold text-gray-900 mb-4 book_title">{request.requested_book.title}</p>
-                                    <p className="text-2xl text-gray-700 mb-4">{request.requested_book.author}</p>
-                                    <p className="text-xl text-gray-700 font-semibold">@{request.requested_book.user.username}</p>
-
-                                    <p className="text-xl text-red-700 font-bold mt-8">Requested Book</p>
-                                </div>
-                            </div>
-
-                            <div className="m-10 mt-4 pt-12 w-4/12 h-64 flex flex-column book-preview gap-10">
-                                <div>
-                                    <p className="text-2xl font-bold text-black text-center" style={{marginLeft: '-20px'}}>{request.status}</p>
-                                </div>
-                                {request.status === "Pending" ? (
-                                    <button className='cancel-btn' onClick={() => CancelTradeRequest(request.requested_book.id)}>Cancel Trade Request</button>
-                                ) : (
-                                    <button className='cancel-btn no-hover' disabled>Cancel Trade Request</button>
-                                )}
-                            </div>
-                        </div>
-                    </li>
-                    ))}
-                </ul>
-            </TabPane>
-        </Tabs>
-    </div>
+        <div className="m-auto mt-8 bg-white rounded-md ring-2 ring-gray-900/5 w-11/12 p-8 overflow-x-auto" style={{ height: '78vh' }}>
+           <h1 className="text-2xl text-black">Trade Requests</h1>
+            <Tabs defaultActiveKey="1" onChange={onChange}>
+                {items.map(item => (
+                    <TabPane tab={item.label} key={item.key}>
+                        {item.children}
+                    </TabPane>
+                ))}
+            </Tabs>
+        </div>
     );
 };
 

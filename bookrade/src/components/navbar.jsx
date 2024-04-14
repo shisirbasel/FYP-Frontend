@@ -39,6 +39,7 @@ const Navbar = () => {
         <Link to="/trade-requests">
           Trade Requests <Badge count={tradeRequestsCount} style={{ backgroundColor: '#06a109', marginTop: '-20px' }} />
         </Link>
+        {/* <Link to="/trade-meets">Trade Meets</Link> */}
         <Link to="/explore">Recommendations</Link>
       </nav>
     </div>

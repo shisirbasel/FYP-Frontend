@@ -58,7 +58,8 @@ const useGlobal = create((set, get) => ({
 
             const response = {
                 'message.list': responseMessageList,
-                'message.send': responseMessageSend
+                'message.send': responseMessageSend,
+                
             }
 
             const resp = response[parsed.source]
@@ -67,7 +68,7 @@ const useGlobal = create((set, get) => ({
                 console.log("parsed source : ", parsed.source + "not found")
                 return
             }
-            resp(set, get, parsed.data, id);   // Pass 'id'
+            resp(set, get, parsed.data, id);
         }
 
 
@@ -78,7 +79,7 @@ const useGlobal = create((set, get) => ({
             console.log("socket close")
         }
 
-        set({ socket }); // Simplified setting of socket
+        set({ socket });
     },
 
     socketClose: () => {
@@ -106,7 +107,7 @@ const useGlobal = create((set, get) => ({
     
         // Wait until the WebSocket is connected
         while (!socket || socket.readyState !== WebSocket.OPEN) {
-            await new Promise(resolve => setTimeout(resolve, 1000)); // Wait for 1 second
+            await new Promise(resolve => setTimeout(resolve, 500));
         }
 
         try {
@@ -123,8 +124,9 @@ const useGlobal = create((set, get) => ({
         } catch (error) {
             console.error("Error sending message list request:", error);
         }
-    }
+    },
 
+    
 
 }));
 

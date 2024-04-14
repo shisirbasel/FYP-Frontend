@@ -8,7 +8,7 @@ import { sendPostRequest, sendGetRequest, sendDeleteRequest } from '../utils/api
 import {  toast } from 'react-toastify';
 
 
-const TradeButton = ({ book, select = false }) => {
+const TradeButton = ({ book, select = false, getBookData }) => {
 
   const [requestStatus, setRequestStatus] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -19,6 +19,7 @@ const TradeButton = ({ book, select = false }) => {
     e.preventDefault();
     const response = await sendDeleteRequest(`delete/traderequest/${book.id}`)
     getTradeStatus();
+    getBookData();
   }
 
   const handleCancel = () => {
@@ -58,6 +59,7 @@ const TradeButton = ({ book, select = false }) => {
     setOfferedBook({})
     getTradeStatus()
     setIsModalOpen(false)
+    getBookData();
   }
 
   return (

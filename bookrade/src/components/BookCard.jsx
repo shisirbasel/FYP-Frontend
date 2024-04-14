@@ -6,6 +6,7 @@ import { Modal } from "antd";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import UpdateBook from "./UpdateBook";
+import { Link } from "react-router-dom";
 
 const BookCard = ({ book, ownbook = false, trade = false, select = false, getBookData}) => {
 
@@ -113,10 +114,14 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
         <div style={{ width: "100%" }}>
           <div className="book-card__title">{book.title}</div>
           <div className="book-card__author font-semibold">{book.author}</div>
-          <div className="book-card__author font-semibold">
-            {book.user.username}
-          </div>
-          <div>{book.genre.name}</div>
+          <Link to={`/user/${book.user.username}`} className="font-extrabold">
+            @{book.user.username}
+          </Link>
+          <br />
+          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 mt-2 text-lg font-semibold text-green-700">
+                {book.genre.name}
+          </span>
+         
         </div>
 
         {trade ? (
@@ -135,7 +140,7 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
                     onClick={likeBook}
                     style={{ color: liked ? "rgb(187, 35, 35)" : "gray" }}
                   ></span>
-                  <TradeButton book={book} select={select} />
+                  <TradeButton book={book} select={select} getBookData={getBookData}/>
                 </div>
               </>
             ) : (

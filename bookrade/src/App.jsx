@@ -17,6 +17,8 @@ import AdminUsers from './pages/AdminUsers';
 import ChatPreview from './pages/ChatPreview';
 import Chat from './pages/Chat';
 import PageNotFound from './pages/PageNotFound';
+import UserProfile from './pages/UserProfile';
+
 
 export const SearchContext = React.createContext();
 export const GenreContext = React.createContext();
@@ -49,7 +51,7 @@ function App() {
       <RequestBookContext.Provider value={[requestedBook, setRequestedBook]}>
         
     {loading ? (
-        <div className='flex h-40 items-center justify-center h-screen'>
+        <div className='flex items-center justify-center h-screen'>
           <img className="" src={loader} alt="Loading" />
         </div>
       ) : (
@@ -75,6 +77,7 @@ function App() {
             <Route path="/admin/dashboard" element={<AdminPrivateRoute Component={Admin} />}  exact />
             <Route path="/admin/books" element={<AdminPrivateRoute Component={AdminBooks} />}  exact />
             <Route path="/admin/users" element={<AdminPrivateRoute Component={AdminUsers} />} exact  />
+            <Route path="/user/:username" element={<UserPrivateRoute Component={UserProfile} />} exact  />
             <Route path='*' element={<PageNotFound/>} />
 
           </Routes>

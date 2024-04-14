@@ -57,34 +57,29 @@ const UpdateProfile = () => {
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('first_name', userData.first_name);
-    formData.append('last_name', userData.last_name);
-    formData.append('username', userData.username);
     
-    if (userGenre.length > 0) {
-      userGenre.forEach(genre => {
-        formData.append('genre', genre.value);
-        console.log(formData);
-      });
-    } else {
-      // Clear existing genre data before appending empty list
-      formData.delete('genre');
-      formData.append('genre',[]);
-      console.log(formData);
-    }
+    const requestData = {
+      first_name: userData.first_name,
+      last_name: userData.last_name,
+      username: userData.username,
+      genre: userGenre.map(genre => genre.value),
+    };
+    
     const token = getToken();
-    try{
-      const response = await axios.patch(`${BASE_URL}update_profile/`, formData, {
+    
+    try {
+      const response = await axios.patch(`${BASE_URL}update_profile/`, requestData, {
         headers: {
-            Authorization: `Bearer ${token}`,
-          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
         },
-      })
-      toast.success("Profile Updated Successfully.")
-    }
-    catch(error){
-      if(error.response && error.response.status === 400){
+      });
+      
+      toast.success("Profile Updated Successfully.");
+      // Refresh user details after successful update
+      getUserDetails();
+    } catch(error) {
+      if(error.response && error.response.status === 400) {
         let errorMessage = '';
         for (const field in error.response.data) {
           if (Array.isArray(error.response.data[field])) {
@@ -93,13 +88,10 @@ const UpdateProfile = () => {
           }
         }
         toast.error(errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1));
-      }
-      else{
+      } else {
         toast.error("A Problem Occurred, Please Try Again");
       }
     }
-    
-    getUserDetails();
   };
 
   return (

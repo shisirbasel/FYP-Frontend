@@ -1,12 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios'; 
 import './../css/register.css';
 import VerifyOtp from '../components/VerifyOtp';
 import { Modal } from 'antd';
+import {useSelector} from "react-redux"
+
 
 const Register = () => {
+
+  const isLoggedIn = useSelector((state)=>state.auth.isLogin)
+
   const BASE_URL = "http://127.0.0.1:8000/api/";
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -31,6 +36,9 @@ const Register = () => {
     e.preventDefault();
     var password_1 = document.getElementById("password1");
     var password_2 = document.getElementById("password2");
+    var username = document.getElementById("username")
+    var firstnamne = document.getElementById("firstname")
+    var lastname = document.getElementById("lastname")
 
     if (password_1.value==="" || password_2.value===""){
       toast.error("Password mustn't be Empty")
@@ -42,13 +50,20 @@ const Register = () => {
     }
     else{
       try{
-        const response = await axios.post(`${BASE_URL}register/`, formData, {
+        await axios.post(`${BASE_URL}register/`, formData, {
           headers: {
             'Content-Type': 'application/json',
           },
         })
           toast.success("Registration Successul, Please Verify your Account Now.")
           setIsModalOpen(true)
+          setFormData({
+            email: '',
+            first_name: '',
+            last_name: '',
+            username: '',
+            password: '',
+          })
       }
       catch(error){
         if(error.response.status ===400){
@@ -81,6 +96,10 @@ const Register = () => {
     }
   };
 
+  useEffect(()=>{if (isLoggedIn){
+    navigate('/'), []
+  }})
+
   return (
     <>
       <div className='content'>
@@ -94,7 +113,7 @@ const Register = () => {
       <div className='card_register'>
         <h1 className='form_title'>Sign Up</h1>
 
-        <form action="" className="form">
+        <form className="form">
           <div className='names'>
             <div className="fieldsf">
               <label htmlFor="firstname">First Name:</label><br />
@@ -103,6 +122,7 @@ const Register = () => {
                 name="firstname"
                 id="firstname"
                 onChange={e => setFormData({ ...formData, first_name: e.target.value })}
+                required
               />
             </div>
             <div className='fieldsl'>
@@ -112,6 +132,7 @@ const Register = () => {
                 name="lastname"
                 id="lastname"
                 onChange={e => setFormData({ ...formData, last_name: e.target.value })}
+                required
               />
             </div>
           </div>
@@ -123,6 +144,7 @@ const Register = () => {
             id="email"
             value={formData.email}
             onChange={e => setFormData({ ...formData, email: e.target.value })}
+            required
           />
 
           <label htmlFor="username">Username:</label><br />
@@ -131,6 +153,7 @@ const Register = () => {
             name="username"
             id="username"
             onChange={e => setFormData({ ...formData, username: e.target.value })}
+            required
           />
 
           <div className='passwords'>
@@ -141,6 +164,7 @@ const Register = () => {
                 name="password1"
                 id="password1"
                 onChange={e => setFormData({ ...formData, password: e.target.value })}
+                required
               />
             </div>
             <div className='password2'>

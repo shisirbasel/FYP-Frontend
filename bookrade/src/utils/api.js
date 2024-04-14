@@ -2,6 +2,10 @@ import axios from 'axios';
 import { getToken } from './token';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { logout } from '../state/authSlice';
+import { store } from '../app/store';
+
+
 
 const BASE_URL = "http://127.0.0.1:8000/api";
 
@@ -71,7 +75,6 @@ export const sendGetRequest= async(endpoint) => {
           
           return newResponse.data;
       } catch (error) {
-          toast.error("Sesson Expired"); 
           return error;
       }
   }
@@ -160,15 +163,15 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
   export const sendDeleteRequest = async (endpoint) => {
     try {
       const token = getToken();
-      const response = await axios.delete(`${BASE_URL}/${endpoint}/`, {
+      const response = await axios.delete(`${BASE_URL}/${endpoint}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-  
-      if (response.status === 200) {
         toast.success(response.data);
-      } else if (response.status === 401) {
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
         try {
           await refreshToken();
           const newToken = getToken();
@@ -184,14 +187,12 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
           toast.error("Please Try Again Later");
         }
       }
-  
-      return response.data;
-    } catch (error) {
       toast.error("Please Try Again Later");
       return error.response;
     }
   };
-  
+
+let counter = 0
 const refreshToken = async () => {
   try {
     const refresh = localStorage.getItem("refresh");
@@ -199,12 +200,13 @@ const refreshToken = async () => {
     const response = await axios.post(`${BASE_URL}/token/refresh/`, refreshData);
     if (refresh && response.status === 200) {
       const { access } = response.data;
-      localStorage.setItem("token", access);
-    } else {
-      toast.error("Session Expired. Please login again.");
-    }
+      localStorage.setItem("token", access);}
   } catch (error) {
-    toast.error("Please Login Again.");
+    if( counter === 0){
+    toast.error("Session Expired, Please Login Again");
+    counter++ }
+    store.dispatch(logout());
+    counter = 0
   }
 };
 

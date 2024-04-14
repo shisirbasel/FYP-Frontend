@@ -40,7 +40,7 @@ const Login = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await axios.post(`${BASE_URL}login/`, formData, {
         headers: {
@@ -65,6 +65,9 @@ const Login = () => {
           toast.error("Your Account is not Verified");
           showModal()
         }
+        else{
+          toast.error("Please enter your Email and Password")
+        }
       } else {
         toast.error("Error Occurred. Please Try Again Later.");
       }
@@ -78,8 +81,6 @@ const Login = () => {
       navigate('/');
 
   };
-
-  
 
   const togglePasswordVisibility = () => {
     var passwordInput = document.getElementById("password");
