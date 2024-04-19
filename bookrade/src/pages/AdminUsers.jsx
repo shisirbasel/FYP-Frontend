@@ -10,7 +10,7 @@ const AdminUsers = () => {
     
     <div className='w-11/12'>
     <AdminHeader/>
-    <div className='content show-book-card '>
+    <div className='m-5'>
         <Users/>
     </div>
 

@@ -16,7 +16,6 @@ const Sidebar = () => {
     dispatch(logout());
   };
 
-
   return (
     <div className="sidebar">
       <div className="logo" style={{display:'flex'}}>
@@ -32,8 +31,14 @@ const Sidebar = () => {
           <Link to='/admin/books' className='navlink'>
             <span className='fas fa-book'/>Books
           </Link>
-          <Link className='navlink'>
+          <Link to='/admin/trade-requests' className='navlink'>
+            <span className='fas fa-plus'/>Trade Requests
+          </Link>
+          <Link to='/admin/trade-meets' className='navlink'>
             <span className='fas fa-handshake'/>Trade Meets
+          </Link>
+           <Link to='/admin/reports' className='navlink'>
+            <span className='fas fa-circle-exclamation'/>User Reports
           </Link>
           <Link className='navlink' onClick={handleLogout}>
         <span className='fas fa-sign-out'/>Logout

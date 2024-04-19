@@ -1,8 +1,6 @@
-import { useState, useEffect, useContext, useCallback } from 'react';
-import { sendDeleteRequest, sendGetRequest } from '../utils/api';
+import { useState, useEffect, useContext } from 'react';
+import { sendGetRequest } from '../utils/api';
 import '../css/books.css';
-import { Link } from 'react-router-dom';
-import { Modal } from 'antd';
 import { SearchContext, GenreContext } from '../App';
 import BookCard from './BookCard';
 
@@ -36,17 +34,13 @@ const ShowBooks = ({select=false, admin=false, ownbook=false}) => {
   return (
     <div className= "overflow-x-auto mx-10 my-10 bg-white rounded-md ring-2 ring-gray-900/5  shadow pt-10 px-32" style={{height:admin? '85vh':'75vh', width:select? '95%': '75%', marginTop: admin? '-50px': ''}}>
 
-      {admin? (<>
-        <h1 className='text-3xl font-semibold mb-10'>Books</h1>
-      </>): (<></>)}
-
       {books.length > 0 && (
         <div className='books'>
           {books.map((book, idx) => {
             return (
-              <Link key={idx} className='book'>
+              <div key={idx} className='book'>
                 <BookCard book={book} select={true} ownbook={ownbook} getBookData={getBookData}/>
-              </Link>
+              </div>
             );
           })}
         </div>

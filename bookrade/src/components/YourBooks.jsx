@@ -23,9 +23,9 @@ const YourBooks = ({trade = false, select= false}) => {
       <div className='books'>
         {books.map((book, idx) => {
           return (
-            <Link key={idx} className='book'>
+            <div key={idx} className='book'>
               <BookCard book={book} ownbook={true} trade={trade} getBookData={getBooks}/>
-            </Link>
+            </div>
           );
         })}
       </div>

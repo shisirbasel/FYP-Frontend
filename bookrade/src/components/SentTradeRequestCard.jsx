@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 
-const SentTradeRequestCard = ({ request, fetchSentRequests, whoseBook = true }) => {
+const SentTradeRequestCard = ({ request, fetchAllRequests, whoseBook = true }) => {
 
     const animatedComponents = makeAnimated();
     const [tradeMeet, setTradeMeet] = useState({
@@ -53,7 +53,7 @@ const SentTradeRequestCard = ({ request, fetchSentRequests, whoseBook = true }) 
         console.log(id)
         const response = await sendDeleteRequest(`delete/traderequest/${id}`)
         console.log(response)
-        fetchSentRequests();
+        fetchAllRequests();
     }
 
     const handleFormSubmit = async (id) => {
@@ -203,7 +203,7 @@ const SentTradeRequestCard = ({ request, fetchSentRequests, whoseBook = true }) 
                                                         <Select
                                                             isDisabled = {true}
                                                             id="districts"
-                                                            closeMenuOnSelect={false}
+                                                            closeMenuOnSelect={true}
                                                             components={animatedComponents}
                                                             value={{ label: tradeMeet.district, value: tradeMeet.district }}
                                                             className="select"

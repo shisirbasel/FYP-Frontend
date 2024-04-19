@@ -3,21 +3,68 @@ import Navigation from '../components/navigation';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { sendGetRequest, sendPostRequest } from '../utils/api';
+import { sendGetRequest, sendPatchRequest, sendPostRequest } from '../utils/api';
 import Image from '../assets/images/usernotfound.png';
 import BookCard from '../components/BookCard';
 import { Modal } from 'antd';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
+import { toast } from 'react-toastify';
 
 const UserProfile = () => {
   const animatedComponents = makeAnimated();
   const navigate = useNavigate();
-  let {username} = useParams()
+  let { username } = useParams();
   const [user, setUser] = useState({});
-  const [rating, setRating] = useState(0);
-  const [books, setBooks] = useState({})
-  const [reportTypes, setReportTypes] = useState({})
+  const [avgRating, setAvgRating] = useState(null);
+  const [books, setBooks] = useState({});
+  const [reportTypes, setReportTypes] = useState({});
+  const [rating, setRating] = useState(null);
+  const [showRating, setShowRating] = useState(false);
+  const [reportType, setReportType] = useState('');
+  const [description, setDescription] = useState('')
+
+  const getAvgRating = async () => {
+    const response = await sendGetRequest(`avg_user_rating/${username}`);
+    setAvgRating(response.rating);
+  };
+
+  const getRating = async () => {
+    const response = await sendGetRequest(`get_user_rating/${username}`);
+    setRating(response.rating);
+  };
+
+  const checkRequest = async () => {
+    const response = await sendGetRequest(`check_request/${username}`)
+    setShowRating(response.exists)
+  }
+
+  const updateUserRating = async () => {
+    const showToast = false;
+    const formData = new FormData();
+    formData.append("rating", rating);
+    try {
+      const response = await sendPatchRequest(`update_user_rating/${username}`, formData, showToast); 
+      console.log(response);
+      getAvgRating();
+    } catch (error) {
+      console.error('Error updating user rating:', error);
+    }
+  };
+  
+  const rateUser = async () => {
+    const formData = new FormData();
+    formData.append("rating", rating);
+    try {
+      const response = await sendPostRequest(`rate_user/${username}`, formData);
+      getAvgRating();
+    } catch (error) {
+      console.error('Error rating user:', error);
+    }
+  };
+  const updateRating = async () => {
+    rating ? updateUserRating() : rateUser();
+  };
 
   const getReportTypes = async () => {
     try {
@@ -31,12 +78,24 @@ const UserProfile = () => {
       console.error('Error fetching report types:', error);
     }
   };
-  
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const reportUser = async () => {
-    const reponse = await sendPostRequest(`report`)
-  }
+    const formData = new FormData();
+    formData.append('type', reportType)
+    formData.append('description', description)
+    try{
+      await sendPostRequest(`report_user/${user.id}`, formData);
+      toast.success("User Reported Successfully.")
+      setReportType('');  
+      setDescription(''); 
+    }
+    catch (error){
+      console.log(error)
+    }
+    setIsModalOpen(false)
+  };
 
   const getUserBooks = async () => {
     try {
@@ -45,8 +104,8 @@ const UserProfile = () => {
     } catch (error) {
       console.error('Error fetching user books:', error);
     }
-  }
-  
+  };
+
   const getUserDetails = async () => {
     try {
       const response = await sendGetRequest(`user/${username}`);
@@ -54,19 +113,30 @@ const UserProfile = () => {
     } catch (error) {
       console.error('Error fetching user details:', error);
     }
-  }
-  
+  };
+
   useEffect(() => {
     getUserDetails();
     getUserBooks();
     getReportTypes();
-  }, []);
-  
+    checkRequest();
+    if (showRating){
+      getAvgRating();
+       getRating();
+    }
+  }, [showRating]);
+
   useEffect(() => {
     if (user && user.is_me) {
       navigate('/profile/details');
     }
-  }, [user]);
+  }, [user, showRating]);
+
+  useEffect(() => {
+    if (rating !== null) {
+      updateRating();
+    }
+  }, [rating, showRating]);
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
@@ -94,34 +164,53 @@ const UserProfile = () => {
                 <Modal
                   title={`Report ${user.first_name}`}
                   open={isModalOpen}
-                  onOk={()=>setIsModalOpen(false)}
+                  onOk={reportUser}
                   onCancel={()=>setIsModalOpen(false)}
                   okText= "Report"
                   okButtonProps={{ style: { backgroundColor: 'red', width: "80px" }}}
-                >
-                  <div className='profile-section'>
-                    <div className='profile-details'>
-                      <label htmlFor="report_type.">Report Type:</label>
-                                            <Select
-                        id="report_type"
-                        closeMenuOnSelect={false}
-                        components={animatedComponents}
-                        className="select"
-                        options={reportTypes}
-                        getOptionLabel={(option) => option.label}
-                        getOptionValue={(option) => option.value}
-                        styles={{
-                          control: (provided, state) => ({
-                            ...provided,
-                            borderColor: state.isFocused ? 'green' : provided.borderColor,
-                            boxShadow: state.isFocused ? '0 0 0 1px #27ae60' : provided.boxShadow,
-                            width: '90%'
-                          }),
-                        }}
-                      />
+                > 
 
+
+                    <div className="profile-section">
+                        <div className="profile-details" style={{ marginLeft: "50px" }}>
+                            <form >
+                                <label htmlFor="report">Report Type :</label>
+                                <Select
+                                    id="report"
+                                    closeMenuOnSelect={true}
+                                    components={animatedComponents}
+                                    options={reportTypes}
+                                    getOptionLabel={(option) => option.label}
+                                    getOptionValue={(option) => option.value}
+                                    className='select'
+                                    onChange={(selectedOption) => {
+                                      setReportType(selectedOption ? selectedOption.value : '');
+                                    }}
+                                    styles={{
+                                        control: (provided, state) => ({
+                                            ...provided,
+                                            borderColor: state.isFocused ? 'green' : provided.borderColor,
+                                            boxShadow: state.isFocused ? '0 0 0 1px #27ae60' : provided.boxShadow,
+                                            width: '90%',
+                                            marginBottom: '10px'
+                                        }),
+                                    }}
+                                />
+
+                                <label htmlFor="description" className='mt-5'>Description:</label>
+                                <input
+                                    type="text"
+                                    className="field"
+                                    id="description"
+                                    name="description"
+                                    onChange={(e)=>setDescription(e.target.value)}
+                                />
+
+                            </form>
+                        </div>
                     </div>
-                  </div>
+
+
                 </Modal>
               </div>
               <div className="w-11/12 m-5 mt-8">
@@ -132,22 +221,29 @@ const UserProfile = () => {
                   sx={{
                     '& > legend': { mt: 2 },
                   }}
-                >
-                  <Rating
-                    name="size-large"
-                    value={5}
-                    size="large"
-                    readOnly
-                  />
+                > 
+               { avgRating? <> 
+                    <Rating
+                      name="size-large"
+                      value={avgRating}
+                      size="large"
+                      readOnly
+                    />
+                  </>:
+                  <>
+                  <p className='text-2xl text-center font-medium'>Unrated</p>
+                   
+                  </> }
+                 
                 </Box>
               </div>
-              <div className="text-center w-11/12 p-5 pl-16 flex flex-col gap-8">
+              <div className="text-center w-11/12 p-5 pl-16 flex flex-col gap-4">
                 <h1 className="text-3xl text-black font-bold">{user.first_name} {user.last_name}</h1>
                 <h1 className="text-3xl text-black font-medium">@{user.username}</h1>
                 <h1 className="text-3xl text-black font-medium">14 Books</h1>
                 <h1 className="text-xl text-black">175 Trades Completed</h1>
               </div>
-              <div className="mt-10">
+              <div className="mt-3">
                 <p className="text-2xl text-black font-bold">Favorite Genres: </p>
                 <div className="flex flex-wrap gap-5 mt-5">
                   {user.genre && user.genre.map((genre, index) => (
@@ -157,6 +253,28 @@ const UserProfile = () => {
                   ))}
                 </div>
               </div>
+              {showRating && (
+                <div className="mt-10 flex flex-wrap gap-7">
+                <p className="text-2xl text-black font-bold">Rate {user.first_name}: </p>
+
+                <Box
+                  sx={{
+                    '& > legend': { mt: 2 },
+                  }}
+                > 
+                   <Rating
+                    name="size-large"
+                    value={rating ? rating : 0}
+                    size="large"
+                    onChange={(e) => {
+                      setRating(e.target.value);
+                    }}
+                  />
+
+                </Box>
+              </div>
+              )}
+              
             </div>
             <div className='books-section flex flex-wrap gap-20 overflow-x-auto w-9/12 p-10' style={{ height: '75vh' }}>
               {Array.isArray(books) && books.map((book, idx) => (

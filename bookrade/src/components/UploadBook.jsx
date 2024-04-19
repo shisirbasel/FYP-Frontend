@@ -102,7 +102,7 @@ const UploadBook = () => {
               <label htmlFor="genre">Genres :</label>
               <Select
                 id="genre"
-                closeMenuOnSelect={false}
+                closeMenuOnSelect={true}
                 components={animatedComponents}
                 className="select"
                 options={genres}

@@ -57,13 +57,20 @@ const Login = () => {
         is_admin? navigate('/admin/dashboard') : navigate('/')
       }
     } catch (error) {
+      console.log(error)
       if (error.response) {
         if (error.response.status === 401) {
       
           toast.error("Invalid Email or Password");
         } else if (error.response.status === 403) {
-          toast.error("Your Account is not Verified");
-          showModal()
+            if (!error.response.data.is_verified) {
+              toast.error("Your Account is not Verified");
+              showModal()
+            }
+            else{
+              toast.error(error.response.data.message)
+            }
+          console.log(error.response)
         }
         else{
           toast.error("Please enter your Email and Password")
@@ -75,11 +82,10 @@ const Login = () => {
   };
 
   const saveToken = (token) => {
-      localStorage.setItem('token', token.access.token);
-      localStorage.setItem('refresh', token.refresh.token);
-      localStorage.setItem('isAdmin', JSON.stringify(token.user.is_admin));
+      localStorage.setItem('token', token.access);
+      localStorage.setItem('refresh', token.refresh);
+      localStorage.setItem('isAdmin', JSON.stringify(token.is_admin));
       navigate('/');
-
   };
 
   const togglePasswordVisibility = () => {

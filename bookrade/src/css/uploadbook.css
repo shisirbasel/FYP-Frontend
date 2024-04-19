@@ -55,7 +55,7 @@
     padding-top: 50px;
 }
 
-.book-form form .form .button{
+.book-form form .form .button,.book-form .image .button{
     height: 40px;
     width: 100%;
     background-color: #228B22;

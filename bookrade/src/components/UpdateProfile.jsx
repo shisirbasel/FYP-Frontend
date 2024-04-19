@@ -12,9 +12,12 @@ const UpdateProfile = () => {
   const BASE_URL = "http://127.0.0.1:8000/api/";
 
   const animatedComponents = makeAnimated();
-  const [userData, setUserData] = useState({});
   const [genres, setGenres] = useState([]);
   const [userGenre, setUserGenre] = useState([]);
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
 
   const GetGenres = async () => {
     try {
@@ -30,7 +33,10 @@ const UpdateProfile = () => {
 
   const UserDetails = async () => {
     const response = await sendGetRequest('profile');
-    setUserData(response);
+    setFirstName(response.first_name)
+    setEmail(response.email)
+    setLastName(response.last_name)
+    setUsername(response.username)
     const formattedGenres = await GetGenres();
     const selectedGenres = response.genre.map(genreId => ({
       label: formattedGenres.find(formattedGenre => formattedGenre.value === genreId).label,
@@ -57,11 +63,27 @@ const UpdateProfile = () => {
 
   const updateProfile = async (e) => {
     e.preventDefault();
-    
+    console.log(firstName)
+    console.log(lastName)
+    console.log(username)
+
+    if (firstName === ''){
+      toast.error("First Name Cannot Be Empty");
+      return;
+    }
+    if (lastName === ''){
+      toast.error("Last Name Cannot Be Empty");
+      return;
+    }
+    if (username === ''){
+      toast.error("Username Cannot Be Empty");
+      return;
+    }
+
     const requestData = {
-      first_name: userData.first_name,
-      last_name: userData.last_name,
-      username: userData.username,
+      first_name: firstName,
+      last_name: lastName,
+      username: username,
       genre: userGenre.map(genre => genre.value),
     };
     
@@ -76,10 +98,25 @@ const UpdateProfile = () => {
       });
       
       toast.success("Profile Updated Successfully.");
-      // Refresh user details after successful update
       getUserDetails();
     } catch(error) {
-      if(error.response && error.response.status === 400) {
+          if (error.response && error.response.status === 401) {
+            try {
+              await refreshToken();
+              const newToken = getToken();
+              await axios.patch(`${BASE_URL}update_profile/`, requestData, {
+                headers: {
+                  Authorization: `Bearer ${newToken}`,
+                  'Content-Type': 'application/json',
+                },
+              });
+              toast.success("Profile Updated Successfully");
+              return newResponse.data;
+            } catch (error) {
+              toast.error("Please Try Again Later");
+            }
+      }
+      else if(error.response && error.response.status === 400) {
         let errorMessage = '';
         for (const field in error.response.data) {
           if (Array.isArray(error.response.data[field])) {
@@ -99,34 +136,34 @@ const UpdateProfile = () => {
       <div className="overflow-auto profile-section mx-10 my-10 bg-white rounded-md ring-2 ring-gray-900/5 w-9/12 shadow pt-10" style={{height:'75vh'}}>
         <div className="profile-details">
           <form>
-          <label htmlFor="fname">First Name :</label>
+              <label htmlFor="fname">First Name :</label>
                     <input
                     type="text"
                     className="field"
                     id="fname"
                     name="first_name"
-                    defaultValue={userData.first_name}
-                    onChange={(e)=>setUserData({ ...userData, first_name: e.target.value })}
-                    />
+                    value={firstName}
+                    onChange={(e)=>setFirstName(e.target.value)}
+                  />
 
                     <label htmlFor="lname">Last Name :</label>
                     <input
-                    type="text"
-                    className="field"
-                    id="lname"
-                    name="last_name"
-                    defaultValue={userData.last_name}
-                    onChange={(e)=>setUserData({ ...userData, last_name: e.target.value })}
+                      type="text"
+                      className="field"
+                      id="lname"
+                      name="last_name"
+                      value={lastName}
+                      onChange={(e)=>setLastName(e.target.value)}
                     />
 
                     <label htmlFor="username">Username :</label>
                     <input
-                    type="text"
-                    className="field"
-                    id="username"
-                    name="username"
-                    defaultValue={userData.username}
-                    onChange={(e)=>setUserData({ ...userData, username: e.target.value })}
+                      type="text"
+                      className="field"
+                      id="username"
+                      name="username"
+                      value={username}
+                      onChange={(e)=>setUsername(e.target.value)}
                     />
 
                     <label htmlFor="email">Email :</label>
@@ -136,7 +173,7 @@ const UpdateProfile = () => {
                     id="email"
                     name="email"
                     style={{ cursor: "not-allowed" }}
-                    defaultValue={userData.email}
+                    defaultValue={email}
                     readOnly
                     /> 
             <label htmlFor="genre">Genres :</label>

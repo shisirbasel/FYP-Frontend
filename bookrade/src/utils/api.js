@@ -8,6 +8,7 @@ import { store } from '../app/store';
 
 
 const BASE_URL = "http://127.0.0.1:8000/api";
+let counter = 0
 
 export const sendPostRequest = async (endpoint, formDataToSend) => {
 
@@ -22,6 +23,7 @@ export const sendPostRequest = async (endpoint, formDataToSend) => {
       
       if (response.status === 201) {
           toast.success(response.data.message);
+          counter = 0;
       }  
       
       return response;
@@ -40,7 +42,9 @@ export const sendPostRequest = async (endpoint, formDataToSend) => {
               toast.success(newResponse.data.message);
               return newResponse.data;
           } catch (error) {
-              toast.error("Please Try Again Later");
+            if (error.response.status === 401){
+              store.dispatch(logout());
+            }
           }
     }
     else if(error.response.status === 400){
@@ -72,10 +76,14 @@ export const sendGetRequest= async(endpoint) => {
                   Authorization: `Bearer ${newToken}`,
               },
           });
-          
+          counter = 0;
           return newResponse.data;
+          
       } catch (error) {
-          return error;
+        console.log("get error: ", error)
+        if (error.response.status === 401){
+          store.dispatch(logout())
+        }
       }
   }
   else{
@@ -85,7 +93,7 @@ export const sendGetRequest= async(endpoint) => {
   }
 };
 
-export const sendPatchRequest = async (endpoint, formDataToSend) => {
+export const sendPatchRequest = async (endpoint, formDataToSend, showToast = true) => {
     try {
       const token = getToken();
       const response = await axios.patch(`${BASE_URL}/${endpoint}/`, formDataToSend, {
@@ -94,7 +102,10 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      toast.success("Updated Successfully")
+      showToast?
+      toast.success("Updated Successfully"):''
+      counter = 0;
+
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -111,11 +122,20 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
           toast.success(newResponse.data.message);
           return newResponse.data;
         } catch (error) {
-          toast.error("Please Try Again Later");
+          if (error.response.status === 401){
+            store.dispatch(logout());
+          }
         }
       }
-      toast.error("Please Try Again Later");
-      return error.response;
+      else if(error.response && error.response.status === 400){
+        toast.error("Invalid or Empty Input. Please Try Again");
+        return error.response;
+      }
+      else{
+        toast.error("Please Try Again Later");
+        return error.response;
+      }
+       
     }
   };
 
@@ -132,6 +152,8 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
           },
         }
       );
+      counter = 0;
+
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -152,7 +174,7 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
           toast.success(newResponse.data.message);
           return newResponse.data;
         } catch (error) {
-          toast.error("Please Try Again Later");
+          store.dispatch(logout());
         }
       }
       toast.error("Please Try Again Later");
@@ -169,6 +191,8 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
         },
       });
         toast.success(response.data);
+        counter = 0;
+
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -184,7 +208,9 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
           toast.success(newResponse.data);
           return newResponse.data;
         } catch (error) {
-          toast.error("Please Try Again Later");
+          if (error.response.status === 401){
+            store.dispatch(logout());
+          }
         }
       }
       toast.error("Please Try Again Later");
@@ -192,7 +218,7 @@ export const sendPatchRequest = async (endpoint, formDataToSend) => {
     }
   };
 
-let counter = 0
+
 const refreshToken = async () => {
   try {
     const refresh = localStorage.getItem("refresh");
@@ -204,9 +230,8 @@ const refreshToken = async () => {
   } catch (error) {
     if( counter === 0){
     toast.error("Session Expired, Please Login Again");
-    counter++ }
+    counter = 1 }
     store.dispatch(logout());
-    counter = 0
   }
 };
 

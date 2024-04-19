@@ -3,14 +3,10 @@ import { sendDeleteRequest, sendGetRequest, sendPostRequest } from "../utils/api
 import { OfferBookContext } from "../App";
 import { useContext, useEffect, useState } from "react";
 import { Modal } from "antd";
-import Select from 'react-select';
-import makeAnimated from 'react-select/animated';
 import UpdateBook from "./UpdateBook";
 import { Link } from "react-router-dom";
 
 const BookCard = ({ book, ownbook = false, trade = false, select = false, getBookData}) => {
-
-  const animatedComponents = makeAnimated();
 
   const getGenres = async () => {
     try {
@@ -22,18 +18,7 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
     }
   };
 
-  const handleImageChange = (e) => {
-    e.preventDefault();
-    const default_image = document.getElementById("image");
-    if (default_image) {
-      const input_image = e.target;
-      default_image.src = URL.createObjectURL(input_image.files[0]);
-      setFormData({ ...formData, image: e.target.files[0] });
-    } else {
-      console.error("Element with ID 'image' not found");
-    }
-  }
-  
+
   const [liked, setLiked] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -105,6 +90,7 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
               src={`http://127.0.0.1:8000${book.image}`}
               alt=""
             />
+            
           </div>
           <div className="book-card__book-back"></div>
           <div className="book-card__book-side"></div>
@@ -117,6 +103,7 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
           <Link to={`/user/${book.user.username}`} className="font-extrabold">
             @{book.user.username}
           </Link>
+
           <br />
           <span className="inline-block bg-gray-200 rounded-full px-3 py-1 mt-2 text-lg font-semibold text-green-700">
                 {book.genre.name}
@@ -154,7 +141,6 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
                     className="fas fa-trash"
                     onClick={handleDeleteModalOpen}
                   ></span>
-
                             
                 <Modal
                   title="Edit Book Details"
@@ -162,10 +148,12 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
                   onOk={handleEditModalClose}
                   onCancel={handleEditModalClose}
                   okText="Save"
-                  width={1200} centered
+                  footer={false}
+                  width={1100} centered
                   okButtonProps={{ style: { backgroundColor: 'green', width: "80px" } }}
                 >
-                  <UpdateBook book={book}/>
+                    <UpdateBook book={book} closeModal={handleEditModalClose} getBooks={getBookData} />
+
                 </Modal>
 
                 <Modal
