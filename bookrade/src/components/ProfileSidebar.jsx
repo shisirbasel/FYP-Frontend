@@ -65,7 +65,7 @@ const ProfileSidebar = () => {
         <Link to="/profile/books" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
           <i className="fas fa-book m-3 mr-5" />Your Books
         </Link>
-        <Link to="#" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
+        <Link to="/change-password" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
           <i className="fas fa-key m-3 mr-5" />Change Password
         </Link>
         <Link to="#" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">

@@ -77,6 +77,7 @@ export const sendGetRequest= async(endpoint) => {
               },
           });
           counter = 0;
+          console.log(response)
           return newResponse.data;
           
       } catch (error) {
@@ -105,9 +106,10 @@ export const sendPatchRequest = async (endpoint, formDataToSend, showToast = tru
       showToast?
       toast.success("Updated Successfully"):''
       counter = 0;
-
-      return response.data;
+      console.log(response)
+      return response;
     } catch (error) {
+      console.log(error)
       if (error.response && error.response.status === 401) {
         try {
           await refreshToken();
@@ -128,7 +130,7 @@ export const sendPatchRequest = async (endpoint, formDataToSend, showToast = tru
         }
       }
       else if(error.response && error.response.status === 400){
-        toast.error("Invalid or Empty Input. Please Try Again");
+        toast.error(error.response.message);
         return error.response;
       }
       else{

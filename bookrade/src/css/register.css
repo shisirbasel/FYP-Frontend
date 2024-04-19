@@ -105,14 +105,14 @@
     margin-right: 8px;
 }
 
-.card_register .form .checkbox{
+
+.card_register .form .checkbox .checkbox_label{
     color: unset;
     width: unset;
     height: unset;
-    margin-top: 6px;
-    margin-right: 8px;
+    font-size: unset;
 }
-
+  
 .message{
   margin-top: 30px;
   width: 400px;

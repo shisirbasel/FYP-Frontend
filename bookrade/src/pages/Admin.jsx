@@ -1,5 +1,3 @@
-
-
 import Sidebar from '../components/SideBar'
 import '../css/admin.css'
 import MonthChart from '../components/MonthChart';
@@ -7,7 +5,6 @@ import BooksChart from '../components/BooksChart';
 import DashboardDetails from '../components/DashboardDetails';
 import AdminHeader from '../components/AdminHeader';
 
-// import Header from '../components/header'
 
 const Admin = () => {
   return (  

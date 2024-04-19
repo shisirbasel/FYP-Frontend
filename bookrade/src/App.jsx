@@ -21,6 +21,8 @@ import UserProfile from './pages/UserProfile';
 import AdminReports from './pages/AdminReports'
 import AdminTradeRequests from './pages/AdminTradeRequests';
 import AdminTradeMeet from './pages/AdminTradeMeet';
+import Recommendations from './pages/Recommendations';
+import ChangePassword from './pages/ChangePassword';
 
 
 export const SearchContext = React.createContext();
@@ -75,6 +77,8 @@ function App() {
             <Route path="/trade-requests" element={<UserPrivateRoute Component={TradeRequests} />} exact  />
             <Route path="/chat" element={<UserPrivateRoute Component={ChatPreview} />}  exact />
             <Route path="/chat/:id" element={<UserPrivateRoute Component={Chat} />} />
+            <Route path="/recommendations" element={<UserPrivateRoute Component={Recommendations} />} />
+            <Route path="/change-password" element={<UserPrivateRoute Component={ChangePassword} />} />
 
             <Route path="/admin" element={<Navigate to="/admin/dashboard"/>} />
             <Route path="/admin/dashboard" element={<AdminPrivateRoute Component={Admin} />}  exact />
