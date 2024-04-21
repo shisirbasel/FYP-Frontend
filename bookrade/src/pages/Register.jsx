@@ -22,9 +22,7 @@ const Register = () => {
     password: '',
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+  
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -57,13 +55,6 @@ const Register = () => {
         })
           toast.success("Registration Successul, Please Verify your Account Now.")
           setIsModalOpen(true)
-          setFormData({
-            email: '',
-            first_name: '',
-            last_name: '',
-            username: '',
-            password: '',
-          })
       }
       catch(error){
         if(error.response.status ===400){
@@ -191,7 +182,7 @@ const Register = () => {
       <Modal title="Account Verification" footer={false} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div className='flex justify-center items-center'>
 
-          <VerifyOtp email={formData.email}/>
+          <VerifyOtp email={formData.email} closeModal={()=>setIsModalOpen(false)}/>
 
         </div>
       </Modal>

@@ -5,7 +5,7 @@ import { InputOTP } from 'antd-input-otp';
 import { Form } from 'antd';
 import { useState } from 'react';
 
-const VerifyOtp = ({email}) => {
+const VerifyOtp = ({email, closeModal}) => {
     const [otp, setOTP] = useState('');
     const [concatenatedOTP, setConcatenatedOTP] = useState('')
 
@@ -26,6 +26,7 @@ const VerifyOtp = ({email}) => {
 
             if (response.status === 200) {
                 toast.success("Account Verified");
+                closeModal();
                 navigate("/login");
             }
         } catch (error) {

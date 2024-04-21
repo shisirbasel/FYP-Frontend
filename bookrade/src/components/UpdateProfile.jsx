@@ -47,10 +47,6 @@ const UpdateProfile = () => {
 
   const handleGenreChange = (selectedOptions) => {
     setUserGenre(selectedOptions); 
-    setUserData(prevUserData => ({
-      ...prevUserData,
-      genre: selectedOptions.map(option => ({ id: option.value }))
-    }));
   };
 
   const getUserDetails = useCallback(() => {

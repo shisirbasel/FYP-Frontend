@@ -11,12 +11,13 @@
 .footer-element {
     align-items: center;
     text-align: center;
-    flex: 1 1 300px; /* Equal width for each footer element, maximum width of 300px */
+    flex: 1 1 300px;
 }
 
 .footer-element h1 {
-    font-size: 24px; /* Adjust heading size */
-    margin-bottom: 10px; /* Add margin below the heading */
+    font-size: 24px;
+    text-align: center;
+    margin-left: -15px;
 }
 
 .about,
@@ -26,16 +27,22 @@
     text-align: unset;
     font-size: 16px;
     color: white;
-     /* Add margin between social media icons */
-     /* Add margin above each set of links or icons */
+}
+
+.about{
+    margin-left: 30px;
+}
+
+.links{
+    margin-left: -15px;
 }
 
 .footer-element p {
-    margin: 5px 0; /* Adjust margin for paragraph elements */
+    margin: 5px 0;
 }
 
 .footer-element .medias a {
-    color: white; /* Change link color to white */
+    color: white;
     font-size: 20px;
 }
 
@@ -48,7 +55,7 @@
 
 
 .footer-element .medias a:last-child {
-    margin-right: 0; /* Remove margin from the last social media icon */
+    margin-right: 0;
 }
 
 .about a:hover,
@@ -58,6 +65,7 @@
 }
 
 .medias{
+    margin-left: -20px;
     justify-content: center;
     display: flex;
     flex-wrap: wrap;

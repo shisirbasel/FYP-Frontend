@@ -23,6 +23,8 @@ import AdminTradeRequests from './pages/AdminTradeRequests';
 import AdminTradeMeet from './pages/AdminTradeMeet';
 import Recommendations from './pages/Recommendations';
 import ChangePassword from './pages/ChangePassword';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
 
 
 export const SearchContext = React.createContext();
@@ -64,6 +66,8 @@ function App() {
           <Routes>
             <Route path="/register" element={<Register />} exact/>
             <Route path="/login" element={<Login />} exact/>
+            <Route path="/forgot-password" element={<ForgotPassword />} exact />
+            <Route path="/forgot-password/reset/:uid/:token" element={<ResetPassword />} exact />
             <Route path="/" element={<Home />} exact />
            
 

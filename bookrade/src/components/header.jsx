@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { sendGetRequest, sendPatchRequestWithoutData } from '../utils/api';
 import { Badge } from "antd";
+import logo from "../assets/logos/logo-white.png"
 
 
 import {
@@ -38,61 +39,62 @@ function ClockIcon() {
 
 const Header = () => {
   const [notificationCount, setNotificationCount] = useState(0);
-
-  
   const [notifications, setNotifications] = useState([]);
-
-const getNotifications = async () => {  
-  try {
-    const response = await sendGetRequest('notifications');
-    setNotifications(response);
-  } catch (error) {
-    console.error("Error fetching notifications:", error);
-  }
-};
-
-const getUnseenNotifications = async () => {
-  const response = await sendGetRequest('unseen_notifications')
-  setNotificationCount(response.count)
-}
-
-useEffect(() => {
-  if (isLoggedIn) {
-    getUnseenNotifications(); 
-    const interval = setInterval(() => {
-      getUnseenNotifications(); 
-    }, 4000);
-    
-    return () => {
-      clearInterval(interval);
-    };
-  }
-}, []);
-
-
   const isLoggedIn = useSelector((state) => state.auth.isLogin);
   const navigate = useNavigate();
   const [ShowSearchBar, setShowSearchBar] = useState(false);
   const [searchParams, setSearchParams] = useContext(SearchContext);
   const [userData, setUserData] = useState({});
 
+  const getNotifications = async () => {  
+    try {
+      const response = await sendGetRequest('notifications');
+      if (response) {
+        setNotifications(response);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+
+  const getUnseenNotifications = async () => {
+    try {
+      const response = await sendGetRequest('unseen_notifications');
+      if (response && response.count !== undefined) {
+        setNotificationCount(response.count);
+      }
+    } catch (error) {
+      console.error("Error fetching unseen notifications:", error);
+    }
+  };
+
   const getUserDetails = async () => {
     if (isLoggedIn) {
-      const response = await sendGetRequest('profile');
-      setUserData(response);
+      try {
+        const response = await sendGetRequest('profile');
+        if (response && response.profile_picture) {
+          setUserData(response);
+        }
+      } catch (error) {
+        console.error("Error fetching user details:", error);
+      }
     }
   };
 
   const seeNotifications = async () => {
-    const response = await sendPatchRequestWithoutData('see_notifications')
-    console.log(response)
-  }
+    try {
+      const response = await sendPatchRequestWithoutData('see_notifications');
+      console.log(response);
+    } catch (error) {
+      console.error("Error updating notifications:", error);
+    }
+  };
 
   const getAllNotifications = () => {
     seeNotifications();
     getNotifications();
     getUnseenNotifications(); 
-  }
+  };
 
   const navigateLogin = (e) => {
     e.preventDefault();
@@ -100,13 +102,33 @@ useEffect(() => {
   };
 
   useEffect(() => {
-    getUserDetails();
+    if (isLoggedIn) {
+      getUnseenNotifications(); 
+      const interval = setInterval(() => {
+        getUnseenNotifications(); 
+      }, 4000);
+      
+      return () => {
+        clearInterval(interval);
+      };
+    }
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn){
+      getUserDetails();
+      getNotifications();
+    }
+    
+  }, []);
+
 
   return (
     <div className="header-1">
-      <Link to="/" className="logo">
-        <i className="fas fa-book"></i>Bookrade
+      <Link to="/" className="logo flex text-center
+       justify-center items-center">
+        <img src={logo} className='h-32 pr-3'/> 
+        <p style={{marginLeft:'-25px'}}>Bookrade</p>
       </Link>
 
       {isLoggedIn ? (

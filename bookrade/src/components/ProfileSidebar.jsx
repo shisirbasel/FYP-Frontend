@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { sendGetRequest, sendPatchRequest } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import { logout } from '../state/authSlice';
+import {  toast } from 'react-toastify';
 
 const ProfileSidebar = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const ProfileSidebar = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
+    toast.success("Logout Successful.")
     dispatch(logout());
   };
 
@@ -68,10 +70,7 @@ const ProfileSidebar = () => {
         <Link to="/change-password" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
           <i className="fas fa-key m-3 mr-5" />Change Password
         </Link>
-        <Link to="#" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
-          <i className="fas fa-handshake m-3 mr-5" />Trade Requests
-        </Link>
-        <Link to="#" onClick={handleLogout} className="rounded-md block m-5 mt-44 bg-gray-300 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-500  hover:text-white">
+        <Link to="#" onClick={handleLogout} className="rounded-md block m-5 mt-72 bg-gray-300 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-500  hover:text-white">
           <i className="fas fa-sign-out m-3 mr-5" />Logout
         </Link>
       </div>

@@ -75,6 +75,12 @@ const UploadBook = () => {
             <h1 className='text-5xl text-green-700' >Upload a Book</h1>
             <label htmlFor='image-input'>
               <img src={image} id="image" alt='' />
+              <button className='button' onClick={ 
+              (e) =>{
+                e.preventDefault();
+                document.getElementById('image-input').click();
+              }
+              }>Upload Image</button>
             </label>
             <input
               type='file'

@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import '../css/sidebar.css';
 import { Link } from 'react-router-dom';
-import logo from '../assets/logos/logo-color.png';
+import logo from '../assets/logos/logo-green.png';
 import { logout } from '../state/authSlice';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 
 
@@ -13,13 +14,14 @@ const Sidebar = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
+    toast.success("Logout Successful.")
     dispatch(logout());
   };
 
   return (
     <div className="sidebar">
       <div className="logo" style={{display:'flex'}}>
-        <img src={logo} alt="" />
+        <img src={logo} alt=""  className=''/>
         <h1 className='text-4xl text-white font-bold mt-10'>Bookrade</h1>
       </div>
           <Link to='/admin/dashboard' className='navlink'>

@@ -50,7 +50,7 @@ const Login = () => {
       saveToken(response.data);
   
       if (response.status === 200) {
-        toast.success("Logged Successfully!")
+        toast.success("Login Successful!")
         dispatch(loginSuccess())
         const is_admin = getUser();
   
@@ -139,7 +139,12 @@ const Login = () => {
                 </div>
                 <input type="submit" value="Login" className="button" onClick={handleFormSubmit} /><br />
               </form>
+              <div>
+              <Link className="text-green-700 float-left" to="/forgot-password">Forgot Password?</Link>
+              
               <Link className="text-green-700 float-right" to="/register">Register?</Link>
+              
+              </div>
             </div>
           </div>
         </div>
@@ -148,8 +153,7 @@ const Login = () => {
       <Modal title="Account Verification" footer={false} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div className='flex justify-center items-center'>
 
-          <VerifyOtp login={false} email = {formData.email
-          } />
+          <VerifyOtp email = {formData.email} closeModal={handleCancel}/>
 
         </div>
       </Modal>
