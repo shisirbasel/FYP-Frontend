@@ -35,16 +35,20 @@ const Register = () => {
     var password_1 = document.getElementById("password1");
     var password_2 = document.getElementById("password2");
     var username = document.getElementById("username")
-    var firstnamne = document.getElementById("firstname")
+    var firstname = document.getElementById("firstname")
     var lastname = document.getElementById("lastname")
+    var email = document.getElementById("email");
 
-    if (password_1.value==="" || password_2.value===""){
-      toast.error("Password mustn't be Empty")
-      return null;
+    if (password_1.value==="" || password_2.value==="" || username.value==="" || firstname.value==="" || lastname.value==="" || email.value==="") {
+      toast.error("Please Enter All the Details");
+      return null
     }
     else if (password_1.value !== password_2.value) {
       toast.error("Password Don't Match, Please Try Again")
       return null;
+    }
+    else if (email.value.indexOf('@') === -1 || !email.value.endsWith('.com')) {
+      toast.error("Please Enter a Valid Email");
     }
     else{
       try{

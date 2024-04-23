@@ -60,7 +60,6 @@ const Login = () => {
       console.log(error)
       if (error.response) {
         if (error.response.status === 401) {
-      
           toast.error("Invalid Email or Password");
         } else if (error.response.status === 403) {
             if (!error.response.data.is_verified) {

@@ -86,7 +86,7 @@ const ResetPassword = () => {
                 type="password"
                 className="field"
                 id="password2"
-                name="email"
+                name="password2"
                 style={{width: '100%'}}
                 onChange={(e) => setPassword2(e.target.value)}
                 />      

@@ -4,10 +4,19 @@ import { sendGetRequest, sendPatchRequest } from '../utils/api';
 import { useDispatch } from 'react-redux';
 import { logout } from '../state/authSlice';
 import {  toast } from 'react-toastify';
+import Rating from '@mui/material/Rating';
+import Box from '@mui/material/Box';
 
 const ProfileSidebar = () => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({});
+
+  const [avgRating, setAvgRating] = useState(null);
+
+  const getAvgRating = async () => {
+    const response = await sendGetRequest(`own_rating`);
+    setAvgRating(response.rating);
+  };
 
   const changeProfilePicture = async (e) => {
     const file = e.target.files[0];
@@ -24,6 +33,7 @@ const ProfileSidebar = () => {
 
   useEffect(() => {
     getUserDetails();
+    getAvgRating();
   }, []);
 
   const handleLogout = (e) => {
@@ -53,12 +63,33 @@ const ProfileSidebar = () => {
           </button>
         </div>
         <div>
+        
+        </div>
+        <div>
           <p className="text-2xl font-bold text-black">
             {userData.first_name} {userData.last_name}
           </p>
           <p className="text-xl text-gray-500">@ {userData.username}</p>
+          <Box
+                  sx={{
+                    '& > legend': { mt: 2 },
+                  }}
+                > 
+               { avgRating? <> 
+                    <Rating
+                      name="size-large"
+                      value={avgRating}
+                      size="large"
+                      readOnly
+                    />
+                  </>:
+                  <>
+                  
+                  </> }
+        </Box>
         </div>
       </div>
+      
 
       <div className="profile-links items-center mt-10">
         <Link to="/profile/details" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
@@ -67,10 +98,13 @@ const ProfileSidebar = () => {
         <Link to="/profile/books" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
           <i className="fas fa-book m-3 mr-5" />Your Books
         </Link>
+        <Link to="/upload" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
+          <i className="fas fa-plus m-3 mr-5" />Add New Book
+        </Link>
         <Link to="/change-password" className="rounded-md block m-5 bg-gray-100 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-300">
           <i className="fas fa-key m-3 mr-5" />Change Password
         </Link>
-        <Link to="#" onClick={handleLogout} className="rounded-md block m-5 mt-72 bg-gray-300 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-500  hover:text-white">
+        <Link to="#" onClick={handleLogout} className="rounded-md block m-5 mt-44 bg-gray-300 pl-10 px-15 py-5 text-2xl text-black-900 hover:bg-gray-500  hover:text-white">
           <i className="fas fa-sign-out m-3 mr-5" />Logout
         </Link>
       </div>

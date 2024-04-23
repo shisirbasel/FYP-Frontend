@@ -31,7 +31,7 @@ const BooksChart = () => {
             data: [{
                 type: "pie",
                 startAngle: -90,
-                indexLabel: "{label}: {y}%",
+                indexLabel: "{label}: {y}",
                 dataPoints: Object.entries(bookDistribution).map(([genre, count]) => ({ y: count, label: genre }))
             }]
         };

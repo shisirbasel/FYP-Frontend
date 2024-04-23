@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { sendGetRequest, sendDeleteRequest, sendPatchRequest } from "../utils/api";
+import { sendGetRequest, sendDeleteRequest } from "../utils/api";
 import { Modal } from 'antd';
-import { toast } from 'react-toastify';
 
 const Users = () => {
+    
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
