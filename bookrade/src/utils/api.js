@@ -49,6 +49,7 @@ export const sendPostRequest = async (endpoint, formDataToSend) => {
     }
     else if(error.response.status === 400){
       toast.error("Invalid or Empty Input! Please Try Again.")
+      return error.response
     }
       else{
         toast.error("A Problem Occured, Please Try Again")

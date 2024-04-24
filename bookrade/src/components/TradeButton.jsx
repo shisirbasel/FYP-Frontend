@@ -49,12 +49,13 @@ const TradeButton = ({ book, select = false, getBookData }) => {
   useEffect(()=>{getTradeStatus()},[])
 
   const sendTradeRequeset = async () => {
+    
     const formData = new FormData();
     formData.append('requested_book', requestedBook.id)
     formData.append('offered_book', offeredBook.id)
     console.log(formData)
-    await sendPostRequest('send/traderequest', formData)
-    toast.success("Trade Request Sent")
+    const response = await sendPostRequest('send/traderequest', formData)
+    console.log(response)
     setRequestedBook({})
     setOfferedBook({})
     getTradeStatus()

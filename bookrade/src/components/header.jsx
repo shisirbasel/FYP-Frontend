@@ -46,15 +46,18 @@ const Header = () => {
   const [searchParams, setSearchParams] = useContext(SearchContext);
   const [userData, setUserData] = useState({});
 
-  const getNotifications = async () => {  
-    try {
-      const response = await sendGetRequest('notifications');
-      if (response) {
-        setNotifications(response);
+  const getNotifications = async () => { 
+    if (isLoggedIn){
+      try {
+        const response = await sendGetRequest('notifications');
+        if (response) {
+          setNotifications(response);
+        }
+      } catch (error) {
+        console.error("Error fetching notifications:", error);
       }
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
     }
+    
   };
 
   const getUnseenNotifications = async () => {

@@ -23,10 +23,13 @@ const Recommendations = () => {
   return (
     <>
         <Navigation />
+
+      
       
             {books.length > 0 && (
             <div className="overflow-x-auto mx-10 ml-16 my-10 bg-white rounded-md ring-2 ring-gray-900/5 shadow pt-10 px-32" style={{ height: '75vh', width: '95%' }}>
-                
+                <h1 className='text-3xl font-semibold pb-10'>Recommendations</h1>
+
                 <div className="books">
                     {books.map((book, idx) => (
                         <BookCard key={idx} book={book} />

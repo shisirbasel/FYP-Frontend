@@ -62,6 +62,7 @@ const UserProfile = () => {
       console.error('Error rating user:', error);
     }
   };
+  
   const updateRating = async () => {
     rating ? updateUserRating() : rateUser();
   };

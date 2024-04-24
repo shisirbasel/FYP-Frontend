@@ -44,7 +44,7 @@ const SuspendButton = ({user, fetchReports}) => {
                 }}>Suspend User</button>
 
                 <Modal
-                  title="Delete Book"
+                  title="Suspend User"
                   open={isModalOpen}
                   onOk={handleSuspendUser}
                   onCancel={()=>setIsModalOpen(false)}

@@ -32,7 +32,7 @@ const BookCard = ({ book, ownbook = false, trade = false, select = false, getBoo
   const likeBook = async () => {
     const formData = new FormData();
     formData.append("book_id", book.id);
-    const response = await sendPostRequest("like", formData);
+    await sendPostRequest("like", formData);
     getLike();
   };
 
