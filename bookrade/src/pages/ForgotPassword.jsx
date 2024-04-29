@@ -9,6 +9,10 @@ const ForgotPassword = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (email === ""){
+      toast.error("Email Shouldn't Be Empty.")
+      return
+    }
     try {
       const data = {
         "email": email
@@ -18,7 +22,8 @@ const ForgotPassword = () => {
       toast.success(response.data)
     } catch (error) {
       error.response.status === 400?
-            toast.error(error.response.data.non_field_errors[0])
+            error.response.data.non_field_errors?
+            toast.error(error.response.data.non_field_errors[0]) : toast.error("Please Enter a valid email.")
             :
             toast.error("Please Try Again Later.")
     }
