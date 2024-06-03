@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import Register from './pages/Register';
-import Explore from './pages/Explore';
-import Profile from './pages/Profile';
-import Admin from './pages/Admin';
-import ProfileBooks from './pages/ProfileBooks';
+import Login from './pages/Auth/Login';
+import Home from './pages/User/Home';
+import Register from './pages/Auth/Register';
+import Explore from './pages/User/Explore';
+import Profile from './pages/User/Profile';
+import Admin from './pages/Admin/Admin';
+import ProfileBooks from './pages/User/ProfileBooks';
 import { UserPrivateRoute, AdminPrivateRoute } from './routes/ProtectedRoutes'; 
 import loader from './assets/loader/loader-img.gif';
-import Upload from './pages/Upload';
-import LikedBooks from './pages/LikedBooks';
-import TradeRequests from './pages/TradeRequests';
-import AdminBooks from './pages/AdminBooks';
-import AdminUsers from './pages/AdminUsers';
-import ChatPreview from './pages/ChatPreview';
-import Chat from './pages/Chat';
+import Upload from './pages/User/Upload';
+import LikedBooks from './pages/User/LikedBooks';
+import TradeRequests from './pages/User/TradeRequests';
+import AdminBooks from './pages/Admin/AdminBooks';
+import AdminUsers from './pages/Admin/AdminUsers';
+import ChatPreview from './pages/User/ChatPreview';
+import Chat from './pages/User/Chat';
 import PageNotFound from './pages/PageNotFound';
-import UserProfile from './pages/UserProfile';
-import AdminReports from './pages/AdminReports'
-import AdminTradeRequests from './pages/AdminTradeRequests';
-import AdminTradeMeet from './pages/AdminTradeMeet';
-import Recommendations from './pages/Recommendations';
-import ChangePassword from './pages/ChangePassword';
-import ForgotPassword from './pages/ForgotPassword';
-import ResetPassword from './pages/ResetPassword';
+import UserProfile from './pages/User/UserProfile';
+import AdminReports from './pages/Admin/AdminReports'
+import AdminTradeRequests from './pages/Admin/AdminTradeRequests';
+import AdminTradeMeet from './pages/Admin/AdminTradeMeet';
+import Recommendations from './pages/User/Recommendations';
+import ChangePassword from './pages/Auth/ChangePassword';
+import ForgotPassword from './pages/Auth/ForgotPassword';
+import ResetPassword from './pages/Auth/ResetPassword';
 
 
 export const SearchContext = React.createContext();

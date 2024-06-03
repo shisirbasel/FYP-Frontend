@@ -1,200 +1,200 @@
 .books{
-    display: flex;
-    flex-wrap: wrap;
-    gap: 50px;
-    padding-left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  padding-left: 10px;
 }
 
 .book-card {
-    width: 260px;
-    padding: 14px;
-    border-radius: 5px;
-    background-color: #fff;
-    margin-bottom: 10px;
-    box-shadow:
-      0 3px 6px rgba(0, 0, 0, 0.16),
-      0 3px 6px rgba(0, 0, 0, 0.23);
-  
-    .book-card__cover {
-      position: relative;
-      width: 200px;
-      height: 300px;
-      margin: 0 auto 8px auto;
-      perspective: 1000px;
-    }
-    
-    .book-card__book {
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: all 250ms ease;
-    }
-  
-    .book-card__book-front {
-      position: absolute;
-      height: 100%;
-    }
-     
-     .book-card__book-back {
-        position: absolute;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        transform: translateZ(-40px);
-     }
-  
-    .book-card__book-side {
-      position: absolute;
-      top: 5px;
-      bottom: 2px;
-      right: -29px;
-      width: 40px;
-      background-size: 5px;
-      background-color: #e1e1e1;
-      background-image: linear-gradient(to right, #ccc 35%, #e1e1e1 35%);
-      opacity: 0;
-      transform: rotate3d(0, 1, 0, 90deg);
-    }
-     
-    .book-card__img {
-      width: 100%;
-      height: 100%;
-      background-color: #e1e1e1;
-    }
-  
-    .book-card__title {
-      font-size: 1.5em;
-      margin-bottom: 8px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap; 
-      width: 140px; 
+  width: 260px;
+  padding: 14px;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.16),
+    0 3px 6px rgba(0, 0, 0, 0.23);
+
+  .book-card__cover {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    margin: 0 auto 8px auto;
+    perspective: 1000px;
   }
-    .book-card__author {
-      color: #757575;
-      font-size: 1em;
-    }
   
-    &:hover {
-      .book-card__book{
-        transform: rotate3d(0, -1, 0, 30deg) translate(-15px, -30px);
-      }
-      
-      .book-card__book-back {
-        box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.35);
-      }
-      
-      .book-card__book-side {
-        opacity: 1;
-      }
-    }
+  .book-card__book {
+    height: 100%;
+    transform-style: preserve-3d;
+    transition: all 250ms ease;
   }
 
+  .book-card__book-front {
+    position: absolute;
+    height: 100%;
+  }
+   
+   .book-card__book-back {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      transform: translateZ(-40px);
+   }
+
+  .book-card__book-side {
+    position: absolute;
+    top: 5px;
+    bottom: 2px;
+    right: -29px;
+    width: 40px;
+    background-size: 5px;
+    background-color: #e1e1e1;
+    background-image: linear-gradient(to right, #ccc 35%, #e1e1e1 35%);
+    opacity: 0;
+    transform: rotate3d(0, 1, 0, 90deg);
+  }
+   
+  .book-card__img {
+    width: 100%;
+    height: 100%;
+    background-color: #e1e1e1;
+  }
+
+  .book-card__title {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    width: 140px; 
+}
+  .book-card__author {
+    color: #757575;
+    font-size: 1em;
+  }
+
+  &:hover {
+    .book-card__book{
+      transform: rotate3d(0, -1, 0, 30deg) translate(-15px, -30px);
+    }
+    
+    .book-card__book-back {
+      box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.35);
+    }
+    
+    .book-card__book-side {
+      opacity: 1;
+    }
+  }
+}
+
 .like-book {
-    font-size: 2rem;
-    padding-right: 15px;
+  font-size: 2rem;
+  padding-right: 15px;
 }
 
 .like-book span:hover{
-    color: rgb(18, 114, 18);
+  color: rgb(18, 114, 18);
 }
 
 .send-btn{
-    padding: 5px;
-    color: white;
-    background-color: #219150;
-    border: 2px solid #219150;
-    font-size: 10px;
-    border-radius: 5px;
-    width: 100px;
-    height: 35px;
-    margin-left: -10px;
-}
-
-.send-btn:hover{
-  color: #219150;
-  background-color: white;
-  border: 2px solid #219150;
-}
-
-.trade-btn{
   padding: 5px;
   color: white;
   background-color: #219150;
   border: 2px solid #219150;
-  font-size: 13px;
+  font-size: 10px;
   border-radius: 5px;
-  width: 200px;
+  width: 100px;
   height: 35px;
   margin-left: -10px;
 }
 
+.send-btn:hover{
+color: #219150;
+background-color: white;
+border: 2px solid #219150;
+}
+
+.trade-btn{
+padding: 5px;
+color: white;
+background-color: #219150;
+border: 2px solid #219150;
+font-size: 13px;
+border-radius: 5px;
+width: 200px;
+height: 35px;
+margin-left: -10px;
+}
+
 .trade-btn:hover{
-  color: #219150;
-  background-color: white;
-  border: 2px solid #219150;
+color: #219150;
+background-color: white;
+border: 2px solid #219150;
 }
 
 .unsend-btn{
-    padding: 5px;
-    color: white;
-    background-color: rgb(187, 35, 35);
-    border: 2px solid rgb(187, 35, 35);
-    font-size: 10px;
-    border-radius: 5px;
-    width: 100px;
-    height: 35px;
-    margin-left: -10px;
-
-}
-
-.unsend-btn:hover{
-    color: rgb(187, 35, 35);
-    background-color: white;
-}
-
-.cancel-btn{
   padding: 5px;
   color: white;
   background-color: rgb(187, 35, 35);
   border: 2px solid rgb(187, 35, 35);
-  font-size: 13px;
+  font-size: 10px;
   border-radius: 5px;
-  width: 200px;
+  width: 100px;
   height: 35px;
   margin-left: -10px;
 
 }
 
-.cancel-btn:hover{
+.unsend-btn:hover{
   color: rgb(187, 35, 35);
   background-color: white;
 }
 
+.cancel-btn{
+padding: 5px;
+color: white;
+background-color: rgb(187, 35, 35);
+border: 2px solid rgb(187, 35, 35);
+font-size: 13px;
+border-radius: 5px;
+width: 200px;
+height: 35px;
+margin-left: -10px;
+
+}
+
+.cancel-btn:hover{
+color: rgb(187, 35, 35);
+background-color: white;
+}
+
 .book-preview{
-  padding: 15px;
-  height: 200px;
+padding: 15px;
+height: 200px;
 }
 
 .book-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+width: 100%;
+height: 100%;
+object-fit: cover;
 }
 
 .flex-column {
-  flex-direction: column;
+flex-direction: column;
 }
 
 .book_title{
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 180px;
+overflow: hidden;
+text-overflow: ellipsis;
+white-space: nowrap;
+width: 180px;
 }
 
 .cancel-btn.no-hover:hover {
-  cursor: not-allowed;
-  color: white;
-  background-color: rgb(187, 35, 35);
-  border: 2px solid rgb(187, 35, 35);
+cursor: not-allowed;
+color: white;
+background-color: rgb(187, 35, 35);
+border: 2px solid rgb(187, 35, 35);
 }

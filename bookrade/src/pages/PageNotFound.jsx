@@ -1,4 +1,3 @@
-
 import image from '../assets/images/404.png';
 
 const PageNotFound = () => {

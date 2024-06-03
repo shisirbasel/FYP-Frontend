@@ -245,9 +245,6 @@ a{
   .bottom-navbar {
     display: block;
   }
-  #notification-btn {
-    display: none;
-  }
 }
 
 @media (max-width: 450px) {
